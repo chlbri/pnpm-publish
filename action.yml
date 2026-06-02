@@ -51,16 +51,25 @@ inputs:
   force:
     description: 'Publish the package even if it is already in the registry'
     required: false
-    default: 'false'
+    default: false
+    type: boolean
   # pnpm setup options
   version:
     description: 'Version of pnpm to use'
     required: false
     default: 'latest'
+    type: string
   cwd:
     description: 'Working directory to run pnpm publish in'
     required: false
     default: '.'
+    type: string
+  provenance:
+    description: 'For better confidence'
+    default: true
+    type: boolean
+    required: false
+    
 
 outputs:
   old version:
