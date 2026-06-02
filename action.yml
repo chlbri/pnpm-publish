@@ -6,6 +6,11 @@ branding:
   icon: 'upload-cloud'
   color: 'orange'
 
+secrets:
+  NPM_TOKEN:
+    required: false
+    description: 'Tells the registry whether this package should be published as public or restricted'
+
 inputs:
   # pnpm publish options
   access:
