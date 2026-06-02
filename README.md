@@ -31,6 +31,7 @@ A GitHub Action to publish packages to the npm registry using **pnpm**, with all
 
 | Output | Description | Type |
 |--------|-------------|------|
+| `name` | The name of the package | `string` |
 | `old-version` | The version of the package before publish | `string` |
 | `new-version` | The version of the package after publish | `string` |
 | `released` | Whether the package was released | `boolean` |
