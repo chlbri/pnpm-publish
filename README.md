@@ -19,15 +19,22 @@ A GitHub Action to publish packages to the npm registry using **pnpm**, with all
 | `working-directory` | Working directory to run pnpm publish in | `.` |
 | `access` | Set package access: `public` or `restricted` | |
 | `tag` | Register the published package under the given dist-tag | |
-| `dry-run` | Simulate the publish without actually publishing | `false` |
-| `otp` | One-time password for 2FA-protected packages | |
+| `dry-run` | (Boolean) Simulate the publish without actually publishing | `false` |
 | `publish-branch` | Branch from which the package should be published | |
-| `no-git-checks` | Disable checks for git tags and uncommitted changes | `false` |
+| `no-git-checks` | (Boolean) Disable checks for git tags and uncommitted changes | `false` |
 | `filter` | Publish only packages matching the filter | |
-| `recursive` | Publish all packages in the workspace | `false` |
-| `report-summary` | Save publish report to `pnpm-publish-summary.json` | `false` |
-| `changed-files-ignore-pattern` | Glob pattern for changed files to ignore | |
+| `recursive` | (Boolean) Publish all packages in the workspace | `false` |
+| `report-summary` | (Boolean) Save publish report to `pnpm-publish-summary.json` | `false` |
 | `force` | Publish even if the package is already in the registry | `false` |
+
+## Outputs
+
+| Output | Description | Type |
+|--------|-------------|------|
+| `old version` | The version of the package before publish | `string` |
+| `new version` | The version of the package after publish | `string` |
+| `released` | Whether the package was released | `boolean` |
+| `tag` | The tag used for the release | `string` |
 
 ## Examples
 
@@ -45,8 +52,8 @@ A GitHub Action to publish packages to the npm registry using **pnpm**, with all
 ```yaml
 - uses: chlbri/pnpm-publish@v1
   with:
-    recursive: 'true'
-    no-git-checks: 'true'
+    recursive: true
+    no-git-checks: true
 ```
 
 ### Dry-run publish
@@ -54,7 +61,7 @@ A GitHub Action to publish packages to the npm registry using **pnpm**, with all
 ```yaml
 - uses: chlbri/pnpm-publish@v1
   with:
-    dry-run: 'true'
+    dry-run: true
 ```
 
 ### Full workflow example
@@ -81,7 +88,7 @@ jobs:
       - uses: chlbri/pnpm-publish@v1
         with:
           access: 'public'
-          no-git-checks: 'true'
+          no-git-checks: true
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 ```
