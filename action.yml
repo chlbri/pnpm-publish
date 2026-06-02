@@ -72,10 +72,13 @@ inputs:
     
 
 outputs:
-  old version:
+  name:
+    description: 'The name of the package'
+    value: ${{ steps.publish.outputs.name }}
+  old-version:
     description: 'The version of the package before publish'
     value: ${{ steps.publish.outputs.old_version }}
-  new version:
+  new-version:
     description: 'The version of the package after publish'
     value: ${{ steps.publish.outputs.new_version }}
   released:
@@ -104,6 +107,8 @@ runs:
             console.log("LOCAL_VERSION=");
           }
         ' 2>/dev/null || true)
+
+        echo "name=$PACKAGE_NAME" >> "$GITHUB_OUTPUT"
 
         OLD_VERSION=""
         if [ -n "$PACKAGE_NAME" ]; then
