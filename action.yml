@@ -38,11 +38,6 @@ inputs:
     required: false
     type: string
     default: ''
-  recursive:
-    description: 'Publish all packages from the workspace'
-    required: false
-    type: boolean
-    default: false
   report-summary:
     description: 'If true, saves a summary of the publish report to a pnpm-publish-summary.json file'
     required: false
@@ -57,7 +52,7 @@ inputs:
     description: 'Version of pnpm to use'
     required: false
     default: 'latest'
-  working-directory:
+  cwd:
     description: 'Working directory to run pnpm publish in'
     required: false
     default: '.'
@@ -82,7 +77,7 @@ runs:
     - name: Run pnpm publish
       id: publish
       shell: bash
-      working-directory: ${{ inputs.working-directory }}
+      working-directory: ${{ inputs.cwd }}
       run: |
         # Get package name and local version from package.json in the working directory
         eval $(node -e '
@@ -125,10 +120,6 @@ runs:
 
         if [ -n "${{ inputs.filter }}" ]; then
           ARGS+=(--filter "${{ inputs.filter }}")
-        fi
-
-        if [ "${{ inputs.recursive }}" = "true" ]; then
-          ARGS+=(--recursive)
         fi
 
         if [ "${{ inputs.report-summary }}" = "true" ]; then
