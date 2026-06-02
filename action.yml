@@ -72,10 +72,10 @@ inputs:
     
 
 outputs:
-  old version:
+  old-version:
     description: 'The version of the package before publish'
     value: ${{ steps.publish.outputs.old_version }}
-  new version:
+  new-version:
     description: 'The version of the package after publish'
     value: ${{ steps.publish.outputs.new_version }}
   released:
