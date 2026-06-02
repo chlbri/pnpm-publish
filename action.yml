@@ -1,0 +1,133 @@
+name: 'pnpm publish'
+description: 'Publish a package to the npm registry using pnpm with all publish options exposed as inputs'
+author: 'chlbri'
+
+branding:
+  icon: 'upload-cloud'
+  color: 'orange'
+
+inputs:
+  # pnpm publish options
+  access:
+    description: 'Tells the registry whether this package should be published as public or restricted'
+    required: false
+    type: string
+    default: ''
+  tag:
+    description: 'Registers the published package with the given tag'
+    required: false
+    type: string
+    default: ''
+  dry-run:
+    description: 'Does everything a publish would do except actually publishing to the registry'
+    required: false
+    type: string
+    default: 'false'
+  otp:
+    description: 'When publishing packages that require two-factor authentication, this option can specify a one-time password'
+    required: false
+    type: string
+    default: ''
+  publish-branch:
+    description: 'The branch from which the package should be published'
+    required: false
+    type: string
+    default: ''
+  no-git-checks:
+    description: 'If true, disables the checks for git tags and uncommitted changes'
+    required: false
+    type: string
+    default: 'false'
+  filter:
+    description: 'Publish only packages matching the filter'
+    required: false
+    type: string
+    default: ''
+  recursive:
+    description: 'Publish all packages from the workspace'
+    required: false
+    type: string
+    default: 'false'
+  report-summary:
+    description: 'If true, saves a summary of the publish report to a pnpm-publish-summary.json file'
+    required: false
+    type: string
+    default: 'false'
+  changed-files-ignore-pattern:
+    description: 'Ignore changed files matching the specified glob pattern when checking if a package should be published'
+    required: false
+    type: string
+    default: ''
+  force:
+    description: 'Publish the package even if it is already in the registry'
+    required: false
+    default: 'false'
+  # pnpm setup options
+  version:
+    description: 'Version of pnpm to use'
+    required: false
+    default: 'latest'
+  working-directory:
+    description: 'Working directory to run pnpm publish in'
+    required: false
+    default: '.'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v4
+      with:
+        version: ${{ inputs.version }}
+
+    - name: Run pnpm publish
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      run: |
+        ARGS=()
+
+        if [ -n "${{ inputs.access }}" ]; then
+          ARGS+=(--access "${{ inputs.access }}")
+        fi
+
+        if [ -n "${{ inputs.tag }}" ]; then
+          ARGS+=(--tag "${{ inputs.tag }}")
+        fi
+
+        if [ "${{ inputs.dry-run }}" = "true" ]; then
+          ARGS+=(--dry-run)
+        fi
+
+        if [ -n "${{ inputs.otp }}" ]; then
+          ARGS+=(--otp "${{ inputs.otp }}")
+        fi
+
+        if [ -n "${{ inputs.publish-branch }}" ]; then
+          ARGS+=(--publish-branch "${{ inputs.publish-branch }}")
+        fi
+
+        if [ "${{ inputs.no-git-checks }}" = "true" ]; then
+          ARGS+=(--no-git-checks)
+        fi
+
+        if [ -n "${{ inputs.filter }}" ]; then
+          ARGS+=(--filter "${{ inputs.filter }}")
+        fi
+
+        if [ "${{ inputs.recursive }}" = "true" ]; then
+          ARGS+=(--recursive)
+        fi
+
+        if [ "${{ inputs.report-summary }}" = "true" ]; then
+          ARGS+=(--report-summary)
+        fi
+
+        if [ -n "${{ inputs.changed-files-ignore-pattern }}" ]; then
+          ARGS+=(--changed-files-ignore-pattern "${{ inputs.changed-files-ignore-pattern }}")
+        fi
+
+        if [ "${{ inputs.force }}" = "true" ]; then
+          ARGS+=(--force)
+        fi
+
+        pnpm publish "${ARGS[@]}"
