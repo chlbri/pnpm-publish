@@ -74,50 +74,50 @@ runs:
       shell: bash
       working-directory: ${{ inputs.working-directory }}
       run: |
-        ARGS=""
+        ARGS=()
 
         if [ -n "${{ inputs.access }}" ]; then
-          ARGS="$ARGS --access ${{ inputs.access }}"
+          ARGS+=(--access "${{ inputs.access }}")
         fi
 
         if [ -n "${{ inputs.tag }}" ]; then
-          ARGS="$ARGS --tag ${{ inputs.tag }}"
+          ARGS+=(--tag "${{ inputs.tag }}")
         fi
 
         if [ "${{ inputs.dry-run }}" = "true" ]; then
-          ARGS="$ARGS --dry-run"
+          ARGS+=(--dry-run)
         fi
 
         if [ -n "${{ inputs.otp }}" ]; then
-          ARGS="$ARGS --otp ${{ inputs.otp }}"
+          ARGS+=(--otp "${{ inputs.otp }}")
         fi
 
         if [ -n "${{ inputs.publish-branch }}" ]; then
-          ARGS="$ARGS --publish-branch ${{ inputs.publish-branch }}"
+          ARGS+=(--publish-branch "${{ inputs.publish-branch }}")
         fi
 
         if [ "${{ inputs.no-git-checks }}" = "true" ]; then
-          ARGS="$ARGS --no-git-checks"
+          ARGS+=(--no-git-checks)
         fi
 
         if [ -n "${{ inputs.filter }}" ]; then
-          ARGS="$ARGS --filter ${{ inputs.filter }}"
+          ARGS+=(--filter "${{ inputs.filter }}")
         fi
 
         if [ "${{ inputs.recursive }}" = "true" ]; then
-          ARGS="$ARGS --recursive"
+          ARGS+=(--recursive)
         fi
 
         if [ "${{ inputs.report-summary }}" = "true" ]; then
-          ARGS="$ARGS --report-summary"
+          ARGS+=(--report-summary)
         fi
 
         if [ -n "${{ inputs.changed-files-ignore-pattern }}" ]; then
-          ARGS="$ARGS --changed-files-ignore-pattern '${{ inputs.changed-files-ignore-pattern }}'"
+          ARGS+=(--changed-files-ignore-pattern "${{ inputs.changed-files-ignore-pattern }}")
         fi
 
         if [ "${{ inputs.force }}" = "true" ]; then
-          ARGS="$ARGS --force"
+          ARGS+=(--force)
         fi
 
-        pnpm publish $ARGS
+        pnpm publish "${ARGS[@]}"
