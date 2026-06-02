@@ -11,42 +11,52 @@ inputs:
   access:
     description: 'Tells the registry whether this package should be published as public or restricted'
     required: false
+    type: string
     default: ''
   tag:
     description: 'Registers the published package with the given tag'
     required: false
+    type: string
     default: ''
   dry-run:
     description: 'Does everything a publish would do except actually publishing to the registry'
     required: false
+    type: string
     default: 'false'
   otp:
     description: 'When publishing packages that require two-factor authentication, this option can specify a one-time password'
     required: false
+    type: string
     default: ''
   publish-branch:
     description: 'The branch from which the package should be published'
     required: false
+    type: string
     default: ''
   no-git-checks:
     description: 'If true, disables the checks for git tags and uncommitted changes'
     required: false
+    type: string
     default: 'false'
   filter:
     description: 'Publish only packages matching the filter'
     required: false
+    type: string
     default: ''
   recursive:
     description: 'Publish all packages from the workspace'
     required: false
+    type: string
     default: 'false'
   report-summary:
     description: 'If true, saves a summary of the publish report to a pnpm-publish-summary.json file'
     required: false
+    type: string
     default: 'false'
   changed-files-ignore-pattern:
     description: 'Ignore changed files matching the specified glob pattern when checking if a package should be published'
     required: false
+    type: string
     default: ''
   force:
     description: 'Publish the package even if it is already in the registry'
