@@ -3,8 +3,10 @@ export type CreateNpmrcOptions = {
     filePath?: string;
     registry?: string;
 };
-export declare const createNpmrc: (options?: CreateNpmrcOptions) => {
+type Out = Partial<{
     created: boolean;
     filePath: string;
     registry: string;
-};
+}>;
+export declare const createNpmrc: (options?: CreateNpmrcOptions) => Out;
+export {};

@@ -1,6 +1,6 @@
 {
-  "name": "@chlbri/pnpm-publish",
-  "version": "0.2.0",
+  "name": "@bemedev/pnpm-publish",
+  "version": "2.0.0",
   "description": "Small helpers to compute npm and pnpm publish options.",
   "author": {
     "email": "bri_lvi@icloud.com",
@@ -19,7 +19,8 @@
   "exports": {
     ".": {
       "import": "./lib/action.js",
-      "require": "./lib/action.cjs"
+      "require": "./lib/action.cjs",
+      "types": "./lib/action.d.ts"
     }
   },
   "maintainers": [
@@ -112,8 +113,7 @@
   },
   "dependencies": {
     "@actions/core": "^3.0.1",
-    "@actions/exec": "^3.0.0",
-    "zx": "^8.8.5"
+    "@actions/exec": "^3.0.0"
   },
   "packageManager": "pnpm@11.5.1+sha512.93f7b57422ea7068257235b4c16eb60762eb68e1dc23723199cc739043ea9be2c4143274a399d8c6defa2b1176226d9ca1c4b63482d6200c1a8fbaa78c1d1485"
 }

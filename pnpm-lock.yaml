@@ -14,9 +14,6 @@ importers:
       '@actions/exec':
         specifier: ^3.0.0
         version: 3.0.0
-      zx:
-        specifier: ^8.8.5
-        version: 8.8.5
     devDependencies:
       '@bemedev/dev-utils':
         specifier: ^0.7.0
@@ -1668,11 +1665,6 @@ packages:
     engines: {node: '>=8'}
     hasBin: true
 
-  zx@8.8.5:
-    resolution: {integrity: sha512-SNgDF5L0gfN7FwVOdEFguY3orU5AkfFZm9B5YSHog/UDHv+lvmd82ZAsOenOkQixigwH2+yyH198AwNdKhj+RA==}
-    engines: {node: '>= 12.17.0'}
-    hasBin: true
-
 snapshots:
 
   '@actions/core@3.0.1':
@@ -2913,5 +2905,3 @@ snapshots:
     dependencies:
       siginfo: 2.0.0
       stackback: 0.0.2
-
-  zx@8.8.5: {}

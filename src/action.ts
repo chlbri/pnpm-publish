@@ -3,7 +3,7 @@ import { exec } from './exec';
 import { saveOuputs } from './outputs';
 import { getPreviousVersion } from './versions';
 
-const action = async () => {
+export const main = async () => {
   const { inputs, result } = await exec();
 
   if (result === undefined || result.length === 0) {
@@ -41,5 +41,3 @@ const action = async () => {
     });
   }
 };
-
-action();

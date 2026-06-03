@@ -33,7 +33,7 @@ inputs:
   filter:
     description: 'Publish only packages matching the filter'
     required: false
-    default: './'
+    default: ''
   force:
     description:
       'Publish the package even if it is already in the registry'
@@ -46,7 +46,6 @@ inputs:
   AUTH:
     description: 'Auth token used in .npmrc (defaults to ${GITHUB_TOKEN})'
     required: false
-    default: ''
   registry:
     description: 'Package registry (npm, github, or full URL)'
     required: false
@@ -70,4 +69,4 @@ outputs:
 
 runs:
   using: node24
-  main: lib/action.js
+  main: action.js

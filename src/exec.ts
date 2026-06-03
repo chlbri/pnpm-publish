@@ -1,7 +1,9 @@
-import { exec as _exec } from '@actions/exec';
+import { exec as _exec, getExecOutput } from '@actions/exec';
+import {} from '@actions/core';
 import { buildCommand } from './command';
 import { createNpmrc } from './npmrc';
 import type { Output } from './types';
+import { SUMMARY_PATH } from './constants';
 
 export const exec = async () => {
   const { command, inputs } = buildCommand();
@@ -11,22 +13,15 @@ export const exec = async () => {
     registry: inputs.registry,
   });
 
-  const lines: string[] = [];
+  await _exec(command);
 
-  await _exec(command, [], {
-    listeners: {
-      stdline(data) {
-        lines.push(data);
-      },
-    },
-  });
+  const { stdout } = await getExecOutput(
+    `node -p "require('${SUMMARY_PATH}').publishedPackages"`,
+  ).catch(() => ({ stdout: undefined }));
 
-  const raw = lines.join('\n').trim();
-  const _index = raw.indexOf('[');
-  const str = _index >= 0 ? raw.slice(_index).trim() : raw;
-
-  const result: Output[] | undefined =
-    str.length > 0 ? JSON.parse(str) : undefined;
+  const result: Output[] | undefined = !stdout
+    ? undefined
+    : JSON.parse(stdout);
 
   return {
     result,

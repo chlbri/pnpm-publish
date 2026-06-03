@@ -1,4 +1,4 @@
-import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync } from 'fs';
 
 const NPM_REGISTRY = 'https://registry.npmjs.org/';
 const GITHUB_REGISTRY = 'https://npm.pkg.github.com/';
@@ -35,14 +35,25 @@ const registryHost = (registry: string) => {
   return host;
 };
 
-export const createNpmrc = (options: CreateNpmrcOptions = {}) => {
+type Out = Partial<{
+  created: boolean;
+  filePath: string;
+  registry: string;
+}>;
+
+export const createNpmrc = (options: CreateNpmrcOptions = {}): Out => {
+  if (!options.authToken) {
+    return {
+      created: false,
+    };
+  }
+
   const registry = normalizeRegistry(options.registry ?? 'npm');
   const authToken = (options.authToken ?? '${GITHUB_TOKEN}').trim();
   const filePath = options.filePath ?? '.npmrc';
   const host = registryHost(registry);
   const registryLine = `registry=${registry}`;
   const tokenLine = `//${host}/:_authToken=${authToken}`;
-
   const alreadyExists = existsSync(filePath);
   const previous = alreadyExists ? readFileSync(filePath, 'utf8') : '';
 
@@ -51,6 +62,7 @@ export const createNpmrc = (options: CreateNpmrcOptions = {}) => {
     .filter(line => line.trim().length > 0);
 
   const hasRegistry = lines.some(line => line.startsWith('registry='));
+
   const hasTokenForHost = lines.find(line =>
     line.startsWith(`//${host}/:_authToken=`),
   );

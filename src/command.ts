@@ -20,7 +20,7 @@ export const buildCommand = () => {
     command.push('--publish-branch', publishBranch);
   }
 
-  command.push('--json');
+  command.push('--report-summary');
   command.push('--no-git-checks');
 
   return { command: command.join(' '), inputs };
