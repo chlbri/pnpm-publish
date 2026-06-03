@@ -10,9 +10,42 @@ on:
 
 jobs:
   publish:
-    uses: chlbri/node-github-actions/.github/workflows/publish.yml@main
-    secrets: inherit
-    with:
-      type:
-        ${{ github.ref_name == 'beta' && 'beta' || github.ref_name ==
-        'canary' && 'canary' || 'latest' }}
+    name: Publish
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout pnpm repo
+        uses: chlbri/node-github-actions/.github/actions/pnpmi@main
+
+      - name: Build
+        run: pnpm run build
+
+      - uses: JS-DevTools/npm-publish@v4
+        id: publish
+        name: Publish
+        with:
+          access: public
+          tag: latest
+          token: ${{ secrets.NPM_TOKEN }}
+          provenance: true
+          registry: npm
+
+      - name: Check - updated
+        if: ${{ steps.publish.outputs.released }}
+        run:
+          echo "${{ steps.publish.outputs.name }} Version changed from ${{
+          steps.publish.outputs.old-version }} to ${{
+          steps.publish.outputs.new-version }}"
+
+      - name: Check - not updated
+        if: ${{ ! steps.publish.outputs.released }}
+        run:
+          echo "Remain the same! - ${{ steps.publish.outputs.old-version
+          }}"
+
+      - name: GitHub Tag
+        if: ${{ steps.publish.outputs.released }}
+        uses: chlbri/node-github-actions/.github/actions/tag@main
+        with:
+          tag: ${{ steps.publish.outputs.new-version }}
+          token: ${{ secrets.GITHUB_TOKEN }}
