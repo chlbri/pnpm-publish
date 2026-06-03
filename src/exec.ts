@@ -1,10 +1,13 @@
-import { $, type ProcessOutput } from 'zx';
+import { $, type ProcessOutput, } from 'zx';
 import { buildCommand } from './command';
 import type { Output } from './types';
 import { createNpmrc } from './npmrc';
 
 export const exec = async () => {
   const { command, inputs } = buildCommand();
+  const workspace = process.env.GITHUB_WORKSPACE?.trim();
+
+  $.cwd = workspace && workspace.length > 0 ? workspace : process.cwd();
 
   createNpmrc({
     authToken: inputs.AUTH,
@@ -16,7 +19,6 @@ export const exec = async () => {
     .json()
     .catch((err: ProcessOutput) => {
       console.error('Error publishing:', err.toString());
-      process.exit(0);
     });
 
   return {
