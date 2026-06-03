@@ -28,7 +28,6 @@ jobs:
           tag: latest
           token: ${{ secrets.NPM_TOKEN }}
           provenance: true
-          registry: npm
 
       - name: Check - updated
         if: ${{ steps.publish.outputs.released }}
