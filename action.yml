@@ -70,9 +70,5 @@ outputs:
     value: ${{ steps.publish.outputs.tag }}
 
 runs:
-  using: 'composite'
-  steps:
-    - name: Run pnpm publish
-      id: publish
-      shell: bash
-      run: node ./lib/action.js
+  using: node24
+  main: lib/action.js
