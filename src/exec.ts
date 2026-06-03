@@ -14,6 +14,12 @@ export const exec = async () => {
   });
 
   await _exec(command).catch(err => {
+    console.warn('ESCAPED');
+    console.warn('*********');
+    console.warn('*********');
+    console.log(err);
+    console.warn('*********');
+    console.warn('*********');
     if (
       err.message.includes(
         'You cannot publish over the previously published versions',
