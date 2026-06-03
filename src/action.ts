@@ -12,6 +12,11 @@ export const main = async () => {
 
     const { stdout } = await getExecOutput(
       `node -p "require('${path}').version"`,
+      [],
+      {
+        silent: true,
+        ignoreReturnCode: true,
+      },
     );
 
     const old_version = stdout.trim();
