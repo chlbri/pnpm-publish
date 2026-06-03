@@ -23,6 +23,12 @@ export const exec = async () => {
     console.warn('*********');
     console.warn('*********');
   });
+  process.on('unhandledRejection', (reason, promise) => {
+    console.warn('Unhandled Rejection at:', promise, 'reason:', reason);
+  });
+  process.on('uncaughtException', (reason, promise) => {
+    console.warn('Unhandled Rejection at:', promise, 'reason:', reason);
+  });
 
   const { stdout } = await getExecOutput(
     `node -p "require('${SUMMARY_PATH}').publishedPackages"`,
