@@ -24,7 +24,7 @@ jobs:
         run: pnpm run build
 
       - name: Publish
-        run: node action.js
+        run: node ./action.js
         id: publish
 
       - name: Check - updated
