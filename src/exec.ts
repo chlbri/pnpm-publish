@@ -18,17 +18,10 @@ export const exec = async () => {
     console.warn('*********');
     console.warn('*********');
     console.log(err);
+    console.log('typoeof :', typeof err);
+    console.log('prototype of:', Object.getPrototypeOf(err));
     console.warn('*********');
     console.warn('*********');
-    if (
-      err.message.includes(
-        'You cannot publish over the previously published versions',
-      )
-    ) {
-      console.warn('Version already published, skipping...');
-    } else {
-      throw err;
-    }
   });
 
   const { stdout } = await getExecOutput(
