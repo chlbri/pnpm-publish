@@ -8,8 +8,9 @@ const action = async () => {
 
   if (result === undefined || result.length === 0) {
     const lines: string[] = [];
+    const path = `${inputs.filter}/package.json`;
 
-    await _exec('node -p "require(\'./package.json\').version"', [], {
+    await _exec(`node -p "require('${path}').version"`, [], {
       listeners: {
         stdline(data) {
           lines.push(data);

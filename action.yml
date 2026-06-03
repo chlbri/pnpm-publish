@@ -33,7 +33,7 @@ inputs:
   filter:
     description: 'Publish only packages matching the filter'
     required: false
-    default: ''
+    default: './'
   force:
     description:
       'Publish the package even if it is already in the registry'
