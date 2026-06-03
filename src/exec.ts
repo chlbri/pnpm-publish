@@ -1,7 +1,8 @@
-import { $, type ProcessOutput, } from 'zx';
+import { exec as _exec } from '@actions/exec';
+import { $ } from 'zx';
 import { buildCommand } from './command';
-import type { Output } from './types';
 import { createNpmrc } from './npmrc';
+import type { Output } from './types';
 
 export const exec = async () => {
   const { command, inputs } = buildCommand();
@@ -14,12 +15,18 @@ export const exec = async () => {
     registry: inputs.registry,
   });
 
-  const _process = $`${command}`;
-  const result: Output[] | undefined = await _process
-    .json()
-    .catch((err: ProcessOutput) => {
-      console.error('Error publishing:', err.toString());
-    });
+  const lines: string[] = [];
+
+  await _exec(command, [], {
+    listeners: {
+      stdline(data) {
+        lines.push(data);
+      },
+    },
+  });
+
+  const result: Output[] | undefined =
+    lines.length > 0 ? JSON.parse(lines.join('\n')) : undefined;
 
   return {
     result,

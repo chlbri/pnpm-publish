@@ -4,6 +4,7 @@ import { getPreviousVersion } from './versions';
 
 const action = async () => {
   const { inputs, result } = await exec();
+  
   if (result === undefined || result.length === 0) {
     return saveOuputs({
       tag: inputs.tag,

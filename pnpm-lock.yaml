@@ -11,6 +11,9 @@ importers:
       '@actions/core':
         specifier: ^3.0.1
         version: 3.0.1
+      '@actions/exec':
+        specifier: ^3.0.0
+        version: 3.0.0
       zx:
         specifier: ^8.8.5
         version: 8.8.5
