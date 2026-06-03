@@ -25,8 +25,12 @@ export const exec = async () => {
     },
   });
 
+  const raw = lines.join('\n').trim();
+  const _index = raw.indexOf('[');
+  const str = _index >= 0 ? raw.slice(_index).trim() : raw;
+
   const result: Output[] | undefined =
-    lines.length > 0 ? JSON.parse(lines.join('\n')) : undefined;
+    str.length > 0 ? JSON.parse(str) : undefined;
 
   return {
     result,
