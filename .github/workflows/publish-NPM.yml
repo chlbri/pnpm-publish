@@ -23,13 +23,9 @@ jobs:
       - name: Build
         run: pnpm run build
 
-      - uses: JS-DevTools/npm-publish@v4
+      - name: Publish
+        run: node ./dist/main.js
         id: publish
-        name: Publish
-        with:
-          access: public
-          tag: latest
-          provenance: true
 
       - name: Check - updated
         if: ${{ steps.publish.outputs.type }}
