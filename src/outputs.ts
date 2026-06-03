@@ -1,12 +1,25 @@
 import { setOutput } from '@actions/core';
 import type { OutputExtended } from './types';
 
-export const saveOuputs = (output: OutputExtended) => {
-  setOutput('name', output.name);
-  setOutput('new_version', output.version);
-  setOutput('tag', output.tag);
-  setOutput('access', output.access);
-  setOutput('released', output.released);
-  setOutput('old_version', output.old_version);
-  setOutput('dry_run', output.dry_run);
+const setOuput2 = (name: string, data?: string) => {
+  if (!data) return;
+  setOutput(name, data);
+};
+
+export const saveOuputs = ({
+  name,
+  access,
+  dry_run,
+  old_version,
+  version,
+  tag,
+  released,
+}: OutputExtended) => {
+  setOuput2('name', name);
+  setOuput2('new_version', version);
+  setOuput2('tag', tag);
+  setOuput2('access', access);
+  setOuput2('released', released);
+  setOuput2('old_version', old_version);
+  setOuput2('dry_run', dry_run);
 };

@@ -1,2 +1,2 @@
 import type { OutputExtended } from './types';
-export declare const saveOuputs: (output: OutputExtended) => void;
+export declare const saveOuputs: ({ name, access, dry_run, old_version, version, tag, released, }: OutputExtended) => void;

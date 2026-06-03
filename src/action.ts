@@ -6,7 +6,6 @@ const action = async () => {
   const { inputs, result } = await exec();
   if (result === undefined || result.length === 0) {
     return saveOuputs({
-      released: 'false',
       tag: inputs.tag,
       access: inputs.access,
       dry_run: String(inputs.dry_run),
