@@ -7,7 +7,8 @@ export const main = async () => {
   const { inputs, result } = await exec();
 
   if (result === undefined || result.length === 0) {
-    const path = `${inputs.filter}/package.json`;
+    const filter = inputs.filter.length > 0 ? inputs.filter : '.';
+    const path = `${filter}/package.json`;
 
     const { stdout } = await getExecOutput(
       `node -p "require('${path}').version"`,
