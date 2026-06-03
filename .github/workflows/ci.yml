@@ -9,11 +9,6 @@ on:
         type: string
 
   push:
-    branches-ignore:
-      - master
-      - main
-      - canary
-      - beta
 
 jobs:
   all:
