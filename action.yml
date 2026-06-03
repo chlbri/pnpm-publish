@@ -63,6 +63,10 @@ outputs:
     description: 'Whether the package was released'
   tag:
     description: 'The tag used for the release'
+  access:
+    description: 'The access level used for the release'
+  dry-run:
+    description: 'Whether the publish was a dry run'
 
 runs:
   using: node24

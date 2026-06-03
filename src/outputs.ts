@@ -16,10 +16,10 @@ export const saveOuputs = ({
   released,
 }: OutputExtended) => {
   setOuput2('name', name);
-  setOuput2('new_version', version);
+  setOuput2('new-version', version);
   setOuput2('tag', tag);
   setOuput2('access', access);
   setOuput2('released', released);
-  setOuput2('old_version', old_version);
-  setOuput2('dry_run', dry_run);
+  setOuput2('old-version', old_version);
+  setOuput2('dry-run', dry_run);
 };
