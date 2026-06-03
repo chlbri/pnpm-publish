@@ -13,3 +13,4 @@ export declare const exec: () => Promise<{
         registry: string;
     };
 }>;
+//# sourceMappingURL=exec.d.ts.map

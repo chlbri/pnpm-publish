@@ -29,7 +29,6 @@ jobs:
         with:
           access: public
           tag: latest
-          token: ${{ secrets.NPM_TOKEN }}
           provenance: true
 
       - name: Check - updated

@@ -1,6 +1,6 @@
 import { exec as _exec, getExecOutput } from '@actions/exec';
 import {} from '@actions/core';
-import { buildCommand } from './command';
+import { buildCommand } from './commands';
 import { createNpmrc } from './npmrc';
 import type { Output } from './types';
 import { SUMMARY_PATH } from './constants';

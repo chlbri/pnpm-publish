@@ -1,3 +1,3 @@
-import { main } from './lib/action';
+import { main } from './dist/action';
 
 main();

@@ -9,3 +9,4 @@ export declare const getInputs: () => {
     AUTH: string;
     registry: string;
 };
+//# sourceMappingURL=inputs.d.ts.map

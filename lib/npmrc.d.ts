@@ -10,3 +10,4 @@ type Out = Partial<{
 }>;
 export declare const createNpmrc: (options?: CreateNpmrcOptions) => Out;
 export {};
+//# sourceMappingURL=npmrc.d.ts.map
