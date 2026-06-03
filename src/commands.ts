@@ -32,7 +32,11 @@ export const constructComand = ({
   force,
 }: InputsSommand) => {
   const commands = ['pnpm', 'publish'];
-  if (access.length > 0) commands.push('--access', access);
+  if (access.length > 0) {
+    commands.push('--access', access);
+  } else {
+    commands.push('--access', 'public');
+  }
   if (tag.length > 0) commands.push('--tag', tag);
   if (dry_run) commands.push('--dry-run');
   if (filter.length > 0) commands.push('--filter', filter);
