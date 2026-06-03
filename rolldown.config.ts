@@ -24,18 +24,20 @@ const FOOTER = [
 
 export default rolldown([
   {
-    input: 'src/action.ts',
+    input: 'src/main.ts',
     platform: 'node',
 
-    output: {
-      file: 'dist/action.js',
-      format: 'esm',
-      sourcemap: false,
-      postBanner: BANNER,
-      postFooter: FOOTER,
-      minify: true,
-      name: 'github-action',
-    },
+    output: [
+      {
+        file: 'dist/main.js',
+        format: 'esm',
+        sourcemap: false,
+        postBanner: BANNER,
+        postFooter: FOOTER,
+        minify: true,
+        name: 'github-action',
+      },
+    ],
 
     plugins: [
       PLUGIN_BUILDERS.alias(),
@@ -51,6 +53,7 @@ export default rolldown([
 
   defineConfig.bemedev({
     declarationMap: true,
-    ignoresJS: '**/*.example.ts',
+    ignoresJS: ['**/*.example.ts', './src/main.ts'],
+    excludesTS: ['./src/main.ts'],
   }),
 ]);
