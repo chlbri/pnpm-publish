@@ -1,5 +1,7 @@
 name: 'pnpm publish'
-description: 'Publish a package to the npm registry using pnpm with all publish options exposed as inputs'
+description:
+  'Publish a package to the npm registry using pnpm with all publish
+  options exposed as inputs'
 author: 'chlbri'
 
 branding:
@@ -9,62 +11,46 @@ branding:
 inputs:
   # pnpm publish options
   access:
-    description: 'Tells the registry whether this package should be published as public or restricted'
+    description:
+      'Tells the registry whether this package should be published as
+      public or restricted'
     required: false
-    type: string
     default: ''
   tag:
     description: 'Registers the published package with the given tag'
     required: false
-    type: string
     default: ''
   dry-run:
-    description: 'Does everything a publish would do except actually publishing to the registry'
+    description:
+      'Does everything a publish would do except actually publishing to the
+      registry'
     required: false
-    type: boolean
-    default: false
+    default: 'false'
   publish-branch:
     description: 'The branch from which the package should be published'
     required: false
-    type: string
     default: ''
-  no-git-checks:
-    description: 'If true, disables the checks for git tags and uncommitted changes'
-    required: false
-    type: boolean
-    default: false
   filter:
     description: 'Publish only packages matching the filter'
     required: false
-    type: string
     default: ''
-  report-summary:
-    description: 'If true, saves a summary of the publish report to a pnpm-publish-summary.json file'
-    required: false
-    type: boolean
-    default: false
   force:
-    description: 'Publish the package even if it is already in the registry'
+    description:
+      'Publish the package even if it is already in the registry'
     required: false
-    default: false
-    type: boolean
-  # pnpm setup options
-  version:
-    description: 'Version of pnpm to use'
-    required: false
-    default: 'latest'
-    type: string
-  cwd:
-    description: 'Working directory to run pnpm publish in'
-    required: false
-    default: '.'
-    type: string
+    default: 'false'
   provenance:
-    description: 'For better confidence'
-    default: true
-    type: boolean
+    description: 'Generate provenance data when publishing'
     required: false
-    
+    default: 'false'
+  AUTH:
+    description: 'Auth token used in .npmrc (defaults to ${GITHUB_TOKEN})'
+    required: false
+    default: ''
+  registry:
+    description: 'Package registry (npm, github, or full URL)'
+    required: false
+    default: 'npm'
 
 outputs:
   name:
@@ -89,101 +75,4 @@ runs:
     - name: Run pnpm publish
       id: publish
       shell: bash
-      working-directory: ${{ inputs.cwd }}
-      run: |
-        # Get package name and local version from package.json in the working directory
-        eval $(node -e '
-          try {
-            const pkg = require("./package.json");
-            console.log("PACKAGE_NAME=" + (pkg.name || ""));
-            console.log("LOCAL_VERSION=" + (pkg.version || ""));
-          } catch (e) {
-            console.log("PACKAGE_NAME=");
-            console.log("LOCAL_VERSION=");
-          }
-        ' 2>/dev/null || true)
-
-        echo "name=$PACKAGE_NAME" >> "$GITHUB_OUTPUT"
-
-        OLD_VERSION=""
-        if [ -n "$PACKAGE_NAME" ]; then
-          OLD_VERSION=$(npm view "$PACKAGE_NAME" version 2>/dev/null || echo "")
-        fi
-
-        ARGS=()
-
-        if [ -n "${{ inputs.access }}" ]; then
-          ARGS+=(--access "${{ inputs.access }}")
-        fi
-
-        if [ -n "${{ inputs.tag }}" ]; then
-          ARGS+=(--tag "${{ inputs.tag }}")
-        fi
-
-        if [ "${{ inputs.dry-run }}" = "true" ]; then
-          ARGS+=(--dry-run)
-        fi
-
-        if [ -n "${{ inputs.publish-branch }}" ]; then
-          ARGS+=(--publish-branch "${{ inputs.publish-branch }}")
-        fi
-
-        if [ "${{ inputs.no-git-checks }}" = "true" ]; then
-          ARGS+=(--no-git-checks)
-        fi
-
-        if [ -n "${{ inputs.filter }}" ]; then
-          ARGS+=(--filter "${{ inputs.filter }}")
-        fi
-
-        if [ "${{ inputs.report-summary }}" = "true" ]; then
-          ARGS+=(--report-summary)
-        fi
-
-        if [ "${{ inputs.force }}" = "true" ]; then
-          ARGS+=(--force)
-        fi
-
-        PUBLISHED_TAG="${{ inputs.tag }}"
-        if [ -z "$PUBLISHED_TAG" ]; then
-          PUBLISHED_TAG="latest"
-        fi
-
-        PUBLISH_STATUS=0
-        pnpm publish "${ARGS[@]}" --report-summary || PUBLISH_STATUS=$?
-
-        if [ $PUBLISH_STATUS -eq 0 ]; then
-          # Publish succeeded!
-          # Get new version (potentially from summary or local package.json)
-          eval $(LOCAL_VERSION="$LOCAL_VERSION" node -e '
-            const fs = require("fs");
-            let newVersion = process.env.LOCAL_VERSION;
-            try {
-              if (fs.existsSync("pnpm-publish-summary.json")) {
-                const summary = JSON.parse(fs.readFileSync("pnpm-publish-summary.json", "utf8"));
-                if (summary && summary.publishedPackages && summary.publishedPackages.length > 0) {
-                  newVersion = summary.publishedPackages[0].version;
-                }
-              }
-            } catch (e) {}
-            console.log("NEW_VERSION=" + newVersion);
-          ' 2>/dev/null || true)
-
-          # Determine released boolean output (released is false for dry-run, true otherwise)
-          if [ "${{ inputs.dry-run }}" = "true" ]; then
-            echo "released=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "released=true" >> "$GITHUB_OUTPUT"
-          fi
-
-          echo "old_version=$OLD_VERSION" >> "$GITHUB_OUTPUT"
-          echo "new_version=$NEW_VERSION" >> "$GITHUB_OUTPUT"
-          echo "tag=$PUBLISHED_TAG" >> "$GITHUB_OUTPUT"
-        else
-          # Publish failed!
-          echo "released=false" >> "$GITHUB_OUTPUT"
-          echo "old_version=$OLD_VERSION" >> "$GITHUB_OUTPUT"
-          echo "new_version=" >> "$GITHUB_OUTPUT"
-          echo "tag=" >> "$GITHUB_OUTPUT"
-          exit $PUBLISH_STATUS
-        fi
+      run: node ./lib/action.js

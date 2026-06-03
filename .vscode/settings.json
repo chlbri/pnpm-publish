@@ -1,0 +1,12 @@
+{
+  "github-actions.workflows.pinned.workflows": [
+    ".github/workflows/ci.yml"
+  ],
+  "chat.tools.terminal.autoApprove": {
+    "git -C /workspaces/pnpm-publish": true,
+    "/^bash /workspaces/pnpm-publish/\\.agents/skills/update-docs/scripts/check-version\\.sh$/": {
+      "approve": true,
+      "matchCommandLine": true
+    }
+  }
+}

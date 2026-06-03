@@ -1,71 +1,73 @@
 # pnpm-publish
 
-A GitHub Action to publish packages to the npm registry using **pnpm**, with all `pnpm publish` options exposed as inputs.
+A GitHub Action that wraps `pnpm publish` and exposes the publish options
+used by this repository.
 
 ## Usage
 
 ```yaml
 - name: Publish package
-  uses: chlbri/pnpm-publish@v1
+  uses: chlbri/pnpm-publish@v0.2.0
   with:
-    access: 'public'
+    access: public
+    tag: latest
 ```
+
+The action always runs `pnpm publish --json --no-git-checks` and adds extra
+flags from the provided inputs.
 
 ## Inputs
 
-| Input | Description | Default |
-|-------|-------------|---------|
-| `version` | Version of pnpm to use | `latest` |
-| `working-directory` | Working directory to run pnpm publish in | `.` |
-| `access` | Set package access: `public` or `restricted` | |
-| `tag` | Register the published package under the given dist-tag | |
-| `dry-run` | (Boolean) Simulate the publish without actually publishing | `false` |
-| `publish-branch` | Branch from which the package should be published | |
-| `no-git-checks` | (Boolean) Disable checks for git tags and uncommitted changes | `false` |
-| `filter` | Publish only packages matching the filter | |
-| `recursive` | (Boolean) Publish all packages in the workspace | `false` |
-| `report-summary` | (Boolean) Save publish report to `pnpm-publish-summary.json` | `false` |
-| `force` | Publish even if the package is already in the registry | `false` |
+| Input            | Description                                                      | Default   |
+| ---------------- | ---------------------------------------------------------------- | --------- |
+| `access`         | Registry access level for the package: `public` or `restricted`. | `''`      |
+| `tag`            | Dist-tag assigned to the published version.                      | `''`      |
+| `dry-run`        | Simulate the publish without uploading the package.              | `'false'` |
+| `publish-branch` | Branch name passed to `pnpm publish --publish-branch`.           | `''`      |
+| `filter`         | Publish only packages matching the filter selector.              | `''`      |
+| `force`          | Publish even if the version is already available.                | `'false'` |
+| `provenance`     | Add `--provenance` to the publish command.                       | `'false'` |
+| `AUTH`           | Optional auth token input reserved for registry configuration.   | `''`      |
+| `registry`       | Registry selector: `npm`, `github`, or a full registry URL.      | `'npm'`   |
 
 ## Outputs
 
-| Output | Description | Type |
-|--------|-------------|------|
-| `name` | The name of the package | `string` |
-| `old-version` | The version of the package before publish | `string` |
-| `new-version` | The version of the package after publish | `string` |
-| `released` | Whether the package was released | `boolean` |
-| `tag` | The tag used for the release | `string` |
+| Output        | Description                                                 |
+| ------------- | ----------------------------------------------------------- |
+| `name`        | Published package name.                                     |
+| `old-version` | Previous version resolved from the registry before publish. |
+| `new-version` | Version returned by `pnpm publish`.                         |
+| `released`    | `true` when a package was published, otherwise `false`.     |
+| `tag`         | Tag returned by the action run.                             |
 
 ## Examples
 
-### Publish a scoped public package
+### Dry run
 
 ```yaml
-- uses: chlbri/pnpm-publish@v1
-  with:
-    access: 'public'
-    tag: 'latest'
-```
-
-### Publish all packages in a monorepo workspace
-
-```yaml
-- uses: chlbri/pnpm-publish@v1
-  with:
-    recursive: true
-    no-git-checks: true
-```
-
-### Dry-run publish
-
-```yaml
-- uses: chlbri/pnpm-publish@v1
+- uses: chlbri/pnpm-publish@v0.2.0
   with:
     dry-run: true
+    tag: next
 ```
 
-### Full workflow example
+### Capture publish metadata
+
+```yaml
+- id: publish
+  uses: chlbri/pnpm-publish@v0.2.0
+  with:
+    access: public
+
+- name: Print release information
+  run: |
+    echo "name=${{ steps.publish.outputs.name }}"
+    echo "old=${{ steps.publish.outputs['old-version'] }}"
+    echo "new=${{ steps.publish.outputs['new-version'] }}"
+    echo "released=${{ steps.publish.outputs.released }}"
+```
+
+### Workflow example
 
 ```yaml
 name: Publish
@@ -83,16 +85,24 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
-          registry-url: 'https://registry.npmjs.org'
+          node-version: 22
+          registry-url: https://registry.npmjs.org
 
-      - uses: chlbri/pnpm-publish@v1
+      - uses: pnpm/action-setup@v4
         with:
-          access: 'public'
-          no-git-checks: true
+          version: 10
+
+      - uses: chlbri/pnpm-publish@v0.2.0
+        with:
+          access: public
+          provenance: true
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          AUTH: ${{ secrets.NPM_TOKEN }}
 ```
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md).
 
 ## License
 

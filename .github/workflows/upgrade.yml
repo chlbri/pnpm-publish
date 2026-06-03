@@ -1,0 +1,100 @@
+name: Admin Update
+
+on:
+  # Déclenchement manuel
+  workflow_dispatch:
+  # Cron chaque premier du mois à 4h UTC
+  schedule:
+    - cron: '0 4 1 * *'
+
+jobs:
+  ci-admin:
+    name: Execute CI Admin Scripts
+    runs-on: ubuntu-latest
+    # Execute only on main/master for scheduled runs and if NPM_TOKEN is defined
+    if: |
+      github.ref == 'refs/heads/main' ||
+      github.ref == 'refs/heads/master'
+
+    outputs:
+      changes-detected: ${{ steps.check-changes.outputs.changes }}
+      version: ${{ steps.get_version.outputs.version }}
+
+    steps:
+      - name: Checkout pnpm repo
+        uses: chlbri/node-github-actions/.github/actions/pnpmi@main
+
+      - name: Execute CI Admin
+        run: pnpm run ci:admin
+
+      - name: Check for changes
+        id: check-changes
+        run: |
+          if git diff --quiet && git diff --cached --quiet; then
+            echo "changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "changes=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Changed
+        if: steps.check-changes.outputs.changes == 'true'
+        run:
+          echo "Changes detected in the workspace. Proceeding with version
+          bump and publish."
+
+      - name: Not Changed
+        if: steps.check-changes.outputs.changes == 'false'
+        run:
+          echo "No changes detected in the workspace. Skipping version bump
+          and publish."
+
+      - name: Upload workspace
+        if: steps.check-changes.outputs.changes == 'true'
+        uses: actions/upload-artifact@v7
+        with:
+          name: updated-workspace
+          path: |
+            .
+            !node_modules
+            !.git
+          retention-days: 1
+      - name: Extract Node Package Version
+        id: get_version
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+  commit-changes:
+    name: Commit Changes
+    runs-on: ubuntu-latest
+    needs: [ci-admin]
+    if: needs.ci-admin.outputs.changes-detected == 'true'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Download workspace with version
+        uses: actions/download-artifact@v8
+        with:
+          name: updated-workspace-with-version
+          path: .
+
+      - name: Commit changes with version bump
+        uses: EndBug/add-and-commit@v9
+        with:
+          message: |
+            chore(admin): Execute monthly admin maintenance scripts and bump version
+
+            Automatically executes monthly administrative maintenance scripts and updates the package version. This maintenance includes configuration updates, file cleanup, and performance optimization.
+
+            chlbri: bri_lvi@icloud.com
+          author_name: '@chlbri'
+          author_email: bri_lvi@icloud.com
+          commit: --signoff
+          add: '.'
+          tag: 'v${{ needs.ci-admin.outputs.version }}'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
