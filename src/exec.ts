@@ -13,7 +13,10 @@ export const exec = async () => {
     registry: inputs.registry,
   });
 
-  await _exec(command).catch(err => {
+  await _exec(command, [], {
+    silent: true,
+    ignoreReturnCode: true,
+  }).catch(err => {
     console.warn('ESCAPED');
     console.warn('*********');
     console.warn('*********');
