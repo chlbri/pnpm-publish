@@ -1,4 +1,4 @@
-import { exec as _exec } from '@actions/exec';
+import { exec as _exec, getExecOutput } from '@actions/exec';
 import { exec } from './exec';
 import { saveOuputs } from './outputs';
 import { getPreviousVersion } from './versions';
@@ -7,18 +7,14 @@ const action = async () => {
   const { inputs, result } = await exec();
 
   if (result === undefined || result.length === 0) {
-    const lines: string[] = [];
     const path = `${inputs.filter}/package.json`;
 
-    await _exec(`node -p "require('${path}').version"`, [], {
-      listeners: {
-        stdline(data) {
-          lines.push(data);
-        },
-      },
-    });
+    const { stdout } = await getExecOutput(
+      `node -p "require('${path}').version"`,
+    );
 
-    const old_version = lines[0].trim();
+    const old_version = stdout.trim();
+
     return saveOuputs({
       tag: inputs.tag,
       access: inputs.access,
