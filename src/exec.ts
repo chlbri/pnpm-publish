@@ -4,6 +4,11 @@ import { buildCommand } from './commands';
 import { createNpmrc } from './npmrc';
 import type { Output } from './types';
 import { SUMMARY_PATH } from './constants';
+import type { ProcessEventMap } from 'process';
+
+type RejectionHandler = (
+  ...args: ProcessEventMap['unhandledRejection']
+) => void;
 
 export const exec = async () => {
   const { command, inputs } = buildCommand();
@@ -26,20 +31,29 @@ export const exec = async () => {
     console.warn('*********');
     console.warn('*********');
   });
-  process.on('unhandledRejection', (reason, promise) => {
-    console.warn('Unhandled Rejection at:', promise, 'reason:', reason);
-  });
-  process.on('uncaughtException', (reason, promise) => {
-    console.warn('Unhandled Rejection at:', promise, 'reason:', reason);
-  });
+
+  const handler: RejectionHandler = reason => {
+    console.warn('Unhandled Rejection by reason:', reason);
+  };
+
+  process.on('unhandledRejection', handler);
+  process.on('uncaughtException', handler);
 
   const { stdout } = await getExecOutput(
     `node -p "require('${SUMMARY_PATH}').publishedPackages"`,
+    [],
+    {
+      silent: true,
+      ignoreReturnCode: true,
+    },
   ).catch(() => ({ stdout: undefined }));
 
   const result: Output[] | undefined = !stdout
     ? undefined
     : JSON.parse(stdout);
+
+  process.off('unhandledRejection', handler);
+  process.off('uncaughtException', handler);
 
   return {
     result,
