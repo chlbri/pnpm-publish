@@ -13,7 +13,17 @@ export const exec = async () => {
     registry: inputs.registry,
   });
 
-  await _exec(command);
+  await _exec(command).catch(err => {
+    if (
+      err.message.includes(
+        'You cannot publish over the previously published versions',
+      )
+    ) {
+      console.warn('Version already published, skipping...');
+    } else {
+      throw err;
+    }
+  });
 
   const { stdout } = await getExecOutput(
     `node -p "require('${SUMMARY_PATH}').publishedPackages"`,
