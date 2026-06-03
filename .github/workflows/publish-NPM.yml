@@ -32,17 +32,14 @@ jobs:
           provenance: true
 
       - name: Check - updated
-        if: ${{ steps.publish.outputs.released }}
-        run:
-          echo "${{ steps.publish.outputs.name }} Version changed from ${{
+        if: ${{ steps.publish.outputs.type }}
+        run: echo "${{ steps.publish.outputs.name }} Version changed from ${{
           steps.publish.outputs.old-version }} to ${{
-          steps.publish.outputs.new-version }}"
+          steps.publish.outputs.version }}"
 
       - name: Check - not updated
-        if: ${{ ! steps.publish.outputs.released }}
-        run:
-          echo "Remain the same! - ${{ steps.publish.outputs.old-version
-          }}"
+        if: ${{ ! steps.publish.outputs.type }}
+        run: echo "Remain the same! - ${{ steps.publish.outputs.version }}"
 
       - name: GitHub Tag
         if: ${{ steps.publish.outputs.released }}
