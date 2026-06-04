@@ -11,18 +11,26 @@ import { SUMMARY_PATH } from './constants';
 // ) => void;
 
 const cmdExec = async (command: string) => {
-  const lines: string[] = [];
+  const errors: string[] = [];
+  const warnings: string[] = [];
+
   await _exec(command, [], {
     silent: true,
     ignoreReturnCode: true,
     listeners: {
       errline: data => {
-        lines.push(data);
+        errors.push(data);
+      },
+      stdline: data => {
+        warnings.push(data);
       },
     },
   });
 
-  console.log(lines);
+  console.log('Erreurs: ' + errors.join('\n'));
+  console.log('Warnings: ' + warnings.join('\n'));
+
+  return { errors, warnings };
 };
 
 export const exec = async () => {
