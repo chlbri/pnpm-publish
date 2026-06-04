@@ -28,15 +28,17 @@ jobs:
         id: publish
 
       - name: Check - updated
-        if: ${{ steps.publish.outputs.type }}
+        if: ${{ steps.publish.outputs.released }}
         run:
           echo "${{ steps.publish.outputs.name }} Version changed from ${{
           steps.publish.outputs.old-version }} to ${{
-          steps.publish.outputs.version }}"
+          steps.publish.outputs.new-version }}"
 
       - name: Check - not updated
-        if: ${{ ! steps.publish.outputs.type }}
-        run: echo "Remain the same! - ${{ steps.publish.outputs.version }}"
+        if: ${{ ! steps.publish.outputs.released }}
+        run:
+          echo "Remain the same! - ${{ steps.publish.outputs.old-version
+          }}"
 
       - name: GitHub Tag
         if: ${{ steps.publish.outputs.released }}
