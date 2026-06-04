@@ -39,6 +39,7 @@ export async function safeExec(
 
   if (schema) {
     const json = warnings.join('\n');
+    console.log('before pass', json);
     const parsed = safeParse(schema, json);
 
     if (parsed.success) {
@@ -99,6 +100,7 @@ export const warnErrors = (label: string) => {
       console.warn();
       console.warn('-'.repeat(60));
       console.warn('END OF', label, 'ERRORS');
+      console.warn();
       console.warn();
     }
   };
