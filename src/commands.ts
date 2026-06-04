@@ -1,4 +1,3 @@
-import { readFileSync } from 'fs';
 import { relative, resolve } from 'path';
 import { SUMMARY_PATH } from './constants';
 import { getInputs } from './inputs';
@@ -15,7 +14,7 @@ export const getVersionCommand = (filter = '.') => {
 };
 
 export const getPublishedsCommand = (summaryPath = SUMMARY_PATH) => {
-  return readFileSync(summaryPath).toLocaleString();
+  return `node -p 'JSON.stringify(require("${summaryPath}").publishedPackages, null, 2)'`;
 };
 
 export const getPackageJson = (filter: string) => {
