@@ -1,9 +1,8 @@
-import { exec as _exec, getExecOutput } from '@actions/exec';
-import {} from '@actions/core';
+import { exec as _exec } from '@actions/exec';
 import { buildCommand } from './commands';
+import { SUMMARY_PATH } from './constants';
 import { createNpmrc } from './npmrc';
 import type { Output } from './types';
-import { SUMMARY_PATH } from './constants';
 // import type { ProcessEventMap } from 'process';
 
 // type RejectionHandler = (
@@ -27,8 +26,34 @@ const cmdExec = async (command: string) => {
     },
   });
 
-  console.log('Erreurs: ' + errors.join('\n'));
-  console.log('Warnings: ' + warnings.join('\n'));
+  console.log('Erreurs: ', errors);
+  console.log('Warnings: ', warnings);
+
+  return { errors, warnings };
+};
+
+const cmdSummary = async () => {
+  const errors: string[] = [];
+  const warnings: string[] = [];
+  await _exec(
+    `node -p "require('${SUMMARY_PATH}').publishedPackages"`,
+    [],
+    {
+      silent: true,
+      ignoreReturnCode: true,
+      listeners: {
+        errline: data => {
+          errors.push(data);
+        },
+        stdline: data => {
+          warnings.push(data);
+        },
+      },
+    },
+  );
+
+  console.log('Erreurs: ', errors);
+  console.log('Warnings: ', warnings);
 
   return { errors, warnings };
 };
@@ -50,13 +75,9 @@ export const exec = async () => {
   // process.on('unhandledRejection', handler);
   // process.on('uncaughtException', handler);
 
-  const { stdout } = await getExecOutput(
-    `node -p "require('${SUMMARY_PATH}').publishedPackages"`,
-    [],
-    {
-      ignoreReturnCode: true,
-    },
-  ).catch(() => ({ stdout: undefined }));
+  const { warnings } = await cmdSummary();
+
+  const stdout = warnings.join('\n');
 
   const result: Output[] | undefined = !stdout
     ? undefined
