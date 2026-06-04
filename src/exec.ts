@@ -15,7 +15,7 @@ const cmdSummary = async () => {
     getPublishedsCommand(),
     SchemaPublisheds,
   );
-  errors.schema.forEach(warnErrors('JSON SCHEMA validation'));
+  errors.schema.forEach(warnErrors('SUMMARY JSON SCHEMA validation'));
 
   return result;
 };
