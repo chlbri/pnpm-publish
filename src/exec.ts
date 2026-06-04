@@ -1,5 +1,5 @@
 import { exec as _exec, getExecOutput } from '@actions/exec';
-import { } from '@actions/core';
+import {} from '@actions/core';
 import { buildCommand } from './commands';
 import { createNpmrc } from './npmrc';
 import type { Output } from './types';
@@ -10,6 +10,21 @@ import { SUMMARY_PATH } from './constants';
 //   ...args: ProcessEventMap['unhandledRejection']
 // ) => void;
 
+const cmdExec = async (command: string) => {
+  const lines: string[] = [];
+  await _exec(command, [], {
+    silent: true,
+    ignoreReturnCode: true,
+    listeners: {
+      stdline: data => {
+        lines.push(data);
+      },
+    },
+  });
+
+  console.log(lines);
+};
+
 export const exec = async () => {
   const { command, inputs } = buildCommand();
 
@@ -18,9 +33,7 @@ export const exec = async () => {
     registry: inputs.registry,
   });
 
-  await _exec(command, [], {
-    ignoreReturnCode: true,
-  });
+  await cmdExec(command);
 
   // const handler: RejectionHandler = reason => {
   //   console.warn('Unhandled Rejection by reason:', reason);
