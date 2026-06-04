@@ -12,14 +12,13 @@ export const main = async () => {
 
   if (result === undefined || result.length === 0) {
     const version = await getCurrentVersion(inputs.filter);
-    const old_version = await getPreviousVersion(version!, packageName!);
 
     return saveOuputs({
       tag: inputs.tag,
       access: inputs.access,
       dry_run: String(inputs.dry_run),
-      old_version,
-      version: old_version,
+      old_version: version,
+      version,
     });
   } else {
     const { version, name } = result.find(e => e.name === packageName)!;
