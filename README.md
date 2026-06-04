@@ -7,7 +7,7 @@ used by this repository.
 
 ```yaml
 - name: Publish package
-  uses: chlbri/pnpm-publish@v0.2.0
+  uses: chlbri/pnpm-publish@v0.5.0
   with:
     access: public
     tag: latest
@@ -39,13 +39,15 @@ flags from the provided inputs.
 | `new-version` | Version returned by `pnpm publish`.                         |
 | `released`    | `true` when a package was published, otherwise `false`.     |
 | `tag`         | Tag returned by the action run.                             |
+| `access`      | Access level of the published package.                      |
+| `dry-run`     | `true` if this was a dry run, otherwise `false`.            |
 
 ## Examples
 
 ### Dry run
 
 ```yaml
-- uses: chlbri/pnpm-publish@v0.2.0
+- uses: chlbri/pnpm-publish@v0.5.0
   with:
     dry-run: true
     tag: next
@@ -55,7 +57,7 @@ flags from the provided inputs.
 
 ```yaml
 - id: publish
-  uses: chlbri/pnpm-publish@v0.2.0
+  uses: chlbri/pnpm-publish@v0.5.0
   with:
     access: public
 
@@ -92,7 +94,7 @@ jobs:
         with:
           version: 10
 
-      - uses: chlbri/pnpm-publish@v0.2.0
+      - uses: chlbri/pnpm-publish@v0.5.0
         with:
           access: public
           provenance: true

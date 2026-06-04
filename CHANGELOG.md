@@ -3,6 +3,38 @@
 <details>
 <summary>
 
+## **[0.5.0] - 04/06/2026** => _13:52_
+
+</summary>
+
+- Remove les inputs obsolètes de l'action composite (`version`, `cwd`,
+  `report-summary`, `no-git-checks`).
+- Add les nouveaux inputs `provenance`, `AUTH` et `registry`.
+- Add les nouvelles sorties `access` et `dry-run` pour exposer les
+  métadonnées de publication.
+- Add une logique d'auto-stabilisation dans le hook husky `commit-msg`.
+- Fix la validation des schémas d'extraction de version et l'affichage des
+  logs de débogage.
+- Fix les références aux variables de sortie dans le workflow de
+  publication.
+- Fix la standardisation des erreurs de console et résolution du pathing du
+  package.
+- Add une documentation détaillée sur les erreurs de push NPM.
+- Refactor l'action composite en action Node24 écrite en TypeScript et
+  compilée avec Rolldown.
+- Refactor la gestion des commandes en extrayant l'exécution dans un helper
+  avec validation via Valibot.
+- Refactor l'extraction de la version en simplifiant le parsing.
+- Refactor le code en supprimant les fichiers obsolètes.
+- <u>Test coverage **_25.76%_**</u>
+
+</details>
+
+<br/>
+
+<details>
+<summary>
+
 ## **[0.2.0] - 03/06/2026** => _13:37_
 
 </summary>

@@ -16496,16 +16496,14 @@ async function wn(e, t) {
     }),
     t)
   ) {
-    let e = n.join(`
-`);
-    console.log(`before pass`, e);
-    let i = Cn(t, e);
-    return (
-      console.log(`after pass`, i),
-      i.success
-        ? { errors: { stderr: r, schema: [] }, result: i.output }
-        : { errors: { stderr: r, schema: i.issues.map(e => e.message) } }
+    let e = Cn(
+      t,
+      n.join(`
+`),
     );
+    return e.success
+      ? { errors: { stderr: r, schema: [] }, result: e.output }
+      : { errors: { stderr: r, schema: e.issues.map(e => e.message) } };
   }
   return { warnings: n, errors: r };
 }
