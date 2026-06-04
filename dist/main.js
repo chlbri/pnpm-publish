@@ -16592,8 +16592,9 @@ const Dn = (...e) => {
   Nn = wn(Cn(`Only string accepted`), _n({}, `Not a json`), xn(Cn())),
   Pn = async e => Dn(...(await En(e)).warnings),
   Fn = async () => {
-    let { errors: e, result: t } = await En(on(), Mn),
-      n = await import(`${y}`);
+    let { errors: e, result: t } = await En(on(), Mn);
+    console.log(`process.cwd`, process.cwd());
+    let n = await import(`../${y}`);
     return (
       console.warn(`publishedPackages`, `=>`, n.publishedPackages),
       e.schema.forEach(On(`SUMMARY JSON SCHEMA validation`)),
