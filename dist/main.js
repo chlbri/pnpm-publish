@@ -16298,17 +16298,28 @@ function hn(e, t) {
     },
   };
 }
-function gn(e, t, n) {
-  return typeof e.fallback == `function` ? e.fallback(t, n) : e.fallback;
+function gn() {
+  return {
+    kind: `transformation`,
+    type: `trim`,
+    reference: gn,
+    async: !1,
+    '~run'(e) {
+      return ((e.value = e.value.trim()), e);
+    },
+  };
 }
 function _n(e, t, n) {
+  return typeof e.fallback == `function` ? e.fallback(t, n) : e.fallback;
+}
+function vn(e, t, n) {
   return typeof e.default == `function` ? e.default(t, n) : e.default;
 }
-function vn(e, t) {
+function yn(e, t) {
   return {
     kind: `schema`,
     type: `array`,
-    reference: vn,
+    reference: yn,
     expects: `Array`,
     async: !1,
     item: e,
@@ -16346,11 +16357,11 @@ function vn(e, t) {
     },
   };
 }
-function yn(e, t) {
+function bn(e, t) {
   return {
     kind: `schema`,
     type: `loose_object`,
-    reference: yn,
+    reference: bn,
     expects: `Object`,
     async: !1,
     entries: e,
@@ -16371,7 +16382,7 @@ function yn(e, t) {
               i.type === `nullish`) &&
               i.default !== void 0)
           ) {
-            let a = r in n ? n[r] : _n(i),
+            let a = r in n ? n[r] : vn(i),
               o = i[`~run`]({ value: a }, t);
             if (o.issues) {
               let i = {
@@ -16390,7 +16401,7 @@ function yn(e, t) {
               }
             }
             (o.typed || (e.typed = !1), (e.value[r] = o.value));
-          } else if (i.fallback !== void 0) e.value[r] = gn(i);
+          } else if (i.fallback !== void 0) e.value[r] = _n(i);
           else if (
             i.type !== `exact_optional` &&
             i.type !== `optional` &&
@@ -16420,11 +16431,11 @@ function yn(e, t) {
     },
   };
 }
-function bn(e) {
+function xn(e) {
   return {
     kind: `schema`,
     type: `string`,
-    reference: bn,
+    reference: xn,
     expects: `string`,
     async: !1,
     message: e,
@@ -16441,7 +16452,7 @@ function bn(e) {
     },
   };
 }
-function xn(...e) {
+function Sn(...e) {
   return {
     ...e[0],
     pipe: e,
@@ -16465,7 +16476,7 @@ function xn(...e) {
     },
   };
 }
-function Sn(e, t, n) {
+function Cn(e, t, n) {
   let r = e[`~run`]({ value: t }, ln(n));
   return {
     typed: r.typed,
@@ -16474,7 +16485,7 @@ function Sn(e, t, n) {
     issues: r.issues,
   };
 }
-async function Cn(e, t) {
+async function wn(e, t) {
   let n = [],
     r = [];
   if (
@@ -16488,7 +16499,7 @@ async function Cn(e, t) {
     let e = n.join(`
 `);
     console.log(`before pass`, e);
-    let i = Sn(t, e);
+    let i = Cn(t, e);
     return (
       console.log(`after pass`, i),
       i.success
@@ -16498,7 +16509,7 @@ async function Cn(e, t) {
   }
   return { warnings: n, errors: r };
 }
-const wn = (...e) => {
+const Tn = (...e) => {
     let t = [],
       n = Object.entries(y);
     if (
@@ -16509,12 +16520,12 @@ const wn = (...e) => {
           });
         });
       }),
-      t.forEach(Tn(`PNPM publish warns with codes`)),
+      t.forEach(En(`PNPM publish warns with codes`)),
       t.length > 0)
     )
       return t;
   },
-  Tn = e => (t, n, r) => {
+  En = e => (t, n, r) => {
     (n === 0 &&
       (console.warn(`-`.repeat(60)),
       console.warn(e, `ERRORS`),
@@ -16528,7 +16539,7 @@ const wn = (...e) => {
         console.warn(),
         console.warn()));
   },
-  En = e => {
+  Dn = e => {
     let t = e.trim().toLowerCase();
     if (t.length === 0 || t === `npm`)
       return `https://registry.npmjs.org/`;
@@ -16539,16 +16550,16 @@ const wn = (...e) => {
         : `https://${t}`;
     return n.endsWith(`/`) ? n : `${n}/`;
   },
-  Dn = e =>
-    En(e)
+  On = e =>
+    Dn(e)
       .replace(/^https?:\/\//, ``)
       .split(`/`)[0],
-  On = (e = {}) => {
+  kn = (e = {}) => {
     if (!e.authToken) return { created: !1 };
-    let t = En(e.registry ?? `npm`),
+    let t = Dn(e.registry ?? `npm`),
       n = (e.authToken ?? '${GITHUB_TOKEN}').trim(),
       r = `.npmrc`,
-      i = Dn(t),
+      i = On(t),
       a = `registry=${t}`,
       o = `//${i}/:_authToken=${n}`,
       c = s(r),
@@ -16569,29 +16580,29 @@ const wn = (...e) => {
       { created: !c, filePath: r, registry: t }
     );
   },
-  kn = xn(
-    bn(`Only string accepted`),
+  An = Sn(
+    xn(`Only string accepted`),
     hn({}, `Not a json`),
-    vn(yn({ name: bn(), version: bn() })),
+    yn(bn({ name: xn(), version: xn() })),
   ),
-  An = async e => wn(...(await Cn(e)).warnings),
-  jn = async () => {
-    let { errors: e, result: t } = await Cn(an(), kn);
-    return (e.schema.forEach(Tn(`JSON SCHEMA validation`)), t);
-  },
+  jn = async e => Tn(...(await wn(e)).warnings),
   Mn = async () => {
+    let { errors: e, result: t } = await wn(an(), An);
+    return (e.schema.forEach(En(`JSON SCHEMA validation`)), t);
+  },
+  Nn = async () => {
     let { command: e, inputs: t } = sn();
     return (
-      On({ authToken: t.AUTH, registry: t.registry }),
-      (await An(e))
+      kn({ authToken: t.AUTH, registry: t.registry }),
+      (await jn(e))
         ? { inputs: t, result: void 0 }
-        : { result: await jn(), inputs: t }
+        : { result: await Mn(), inputs: t }
     );
   },
-  Nn = (e, t) => {
+  Pn = (e, t) => {
     t && nn(e, t);
   },
-  Pn = ({
+  Fn = ({
     name: e,
     access: t,
     dry_run: n,
@@ -16600,45 +16611,45 @@ const wn = (...e) => {
     tag: a,
     released: o,
   }) => {
-    (Nn(`name`, e),
-      Nn(`new-version`, i),
-      Nn(`tag`, a),
-      Nn(`access`, t),
-      Nn(`released`, o),
-      Nn(`old-version`, r),
-      Nn(`dry-run`, n));
+    (Pn(`name`, e),
+      Pn(`new-version`, i),
+      Pn(`tag`, a),
+      Pn(`access`, t),
+      Pn(`released`, o),
+      Pn(`old-version`, r),
+      Pn(`dry-run`, n));
   },
-  Fn = async (e, t) => {
-    let { errors: n, result: r } = await Cn(
+  In = async (e, t) => {
+    let { errors: n, result: r } = await wn(
       `pnpm view ${t} versions`,
-      vn(bn()),
+      yn(xn()),
     );
     return (
-      n.schema.forEach(Tn(`JSON SCHEMA validation`)),
+      n.schema.forEach(En(`JSON SCHEMA validation`)),
       n.stderr.length > 0 && console.warn(`Some errors occured !!`),
       r?.filter(t => t !== e)
     );
   },
-  In = async (e, t) => {
-    let n = await Fn(e, t);
+  Ln = async (e, t) => {
+    let n = await In(e, t);
     return !n || n.length === 0 ? e : n[n.length - 1];
   },
-  Ln = async e => {
-    let { errors: t, result: n } = await Cn(
+  Rn = async e => {
+    let { errors: t, result: n } = await wn(
       `node -p "require('${`./${f(`.`, p(e, `package.json`))}`}').version"`,
-      xn(bn(), hn(), bn()),
+      Sn(xn(), gn()),
     );
     return (
-      t.schema.forEach(Tn(`JSON SCHEMA validation`)),
+      t.schema.forEach(En(`JSON SCHEMA validation`)),
       t.stderr.length > 0 && console.warn(`Some errors occured !!`),
       n
     );
   };
 (async () => {
-  let { inputs: e, result: t } = await Mn();
+  let { inputs: e, result: t } = await Nn();
   if (t === void 0 || t.length === 0) {
-    let t = await Ln(e.filter);
-    return Pn({
+    let t = await Rn(e.filter);
+    return Fn({
       tag: e.tag,
       access: e.access,
       dry_run: String(e.dry_run),
@@ -16646,9 +16657,9 @@ const wn = (...e) => {
       version: t,
     });
   } else {
-    let n = await In(t[0].version, t[0].name),
+    let n = await Ln(t[0].version, t[0].name),
       { name: r, version: i } = t[0];
-    return Pn({
+    return Fn({
       name: r,
       version: i,
       tag: e.tag,
