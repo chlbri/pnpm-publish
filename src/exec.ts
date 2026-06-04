@@ -1,5 +1,5 @@
 import { exec as _exec, getExecOutput } from '@actions/exec';
-import {} from '@actions/core';
+import { } from '@actions/core';
 import { buildCommand } from './commands';
 import { createNpmrc } from './npmrc';
 import type { Output } from './types';
@@ -19,7 +19,6 @@ export const exec = async () => {
   });
 
   await _exec(command, [], {
-    silent: true,
     ignoreReturnCode: true,
   });
 
@@ -34,7 +33,6 @@ export const exec = async () => {
     `node -p "require('${SUMMARY_PATH}').publishedPackages"`,
     [],
     {
-      silent: true,
       ignoreReturnCode: true,
     },
   ).catch(() => ({ stdout: undefined }));

@@ -14,7 +14,6 @@ export const main = async () => {
       `node -p "require('${path}').version"`,
       [],
       {
-        silent: true,
         ignoreReturnCode: true,
       },
     );
