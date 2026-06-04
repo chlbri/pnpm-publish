@@ -1,61 +1,23 @@
-import { exec as _exec } from '@actions/exec';
-import { buildCommand } from './commands';
-import { SUMMARY_PATH } from './constants';
+import { buildCommand, getPublishedsCommand } from './commands';
+import { collectNpmCodes, safeExec, warnErrors } from './helpers';
 import { createNpmrc } from './npmrc';
-import type { Output } from './types';
-// import type { ProcessEventMap } from 'process';
-
-// type RejectionHandler = (
-//   ...args: ProcessEventMap['unhandledRejection']
-// ) => void;
+import { SchemaPublisheds } from './schemas';
 
 const cmdExec = async (command: string) => {
-  const errors: string[] = [];
-  const warnings: string[] = [];
+  const result = await safeExec(command);
+  const out = collectNpmCodes(...result.warnings);
 
-  await _exec(command, [], {
-    silent: true,
-    ignoreReturnCode: true,
-    listeners: {
-      errline: data => {
-        errors.push(data);
-      },
-      stdline: data => {
-        warnings.push(data);
-      },
-    },
-  });
-
-  console.log('Erreurs: ', errors);
-  console.log('Warnings: ', warnings);
-
-  return { errors, warnings };
+  return out;
 };
 
 const cmdSummary = async () => {
-  const errors: string[] = [];
-  const warnings: string[] = [];
-  await _exec(
-    `node -p "require('${SUMMARY_PATH}').publishedPackages"`,
-    [],
-    {
-      silent: true,
-      ignoreReturnCode: true,
-      listeners: {
-        errline: data => {
-          errors.push(data);
-        },
-        stdline: data => {
-          warnings.push(data);
-        },
-      },
-    },
+  const { errors, result } = await safeExec(
+    getPublishedsCommand(),
+    SchemaPublisheds,
   );
+  errors.schema.forEach(warnErrors('JSON SCHEMA validation'));
 
-  console.log('Erreurs: ', errors);
-  console.log('Warnings: ', warnings);
-
-  return { errors, warnings };
+  return result;
 };
 
 export const exec = async () => {
@@ -66,22 +28,10 @@ export const exec = async () => {
     registry: inputs.registry,
   });
 
-  await cmdExec(command);
+  const resultCommand = await cmdExec(command);
+  if (resultCommand) return { inputs, result: undefined };
 
-  // const handler: RejectionHandler = reason => {
-  //   console.warn('Unhandled Rejection by reason:', reason);
-  // };
-
-  // process.on('unhandledRejection', handler);
-  // process.on('uncaughtException', handler);
-
-  const { warnings } = await cmdSummary();
-
-  const stdout = warnings.join('\n');
-
-  const result: Output[] | undefined = !stdout
-    ? undefined
-    : JSON.parse(stdout);
+  const result = await cmdSummary();
 
   return {
     result,

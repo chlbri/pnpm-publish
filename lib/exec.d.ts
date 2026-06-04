@@ -1,6 +1,10 @@
-import type { Output } from './types';
 export declare const exec: () => Promise<{
-    result: Output[] | undefined;
+    result: ({
+        name: string;
+        version: string;
+    } & {
+        [key: string]: unknown;
+    })[] | undefined;
     inputs: {
         access: string;
         tag: string;

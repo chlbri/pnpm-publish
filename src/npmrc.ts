@@ -5,7 +5,6 @@ const GITHUB_REGISTRY = 'https://npm.pkg.github.com/';
 
 export type CreateNpmrcOptions = {
   authToken?: string;
-  filePath?: string;
   registry?: string;
 };
 
@@ -50,7 +49,7 @@ export const createNpmrc = (options: CreateNpmrcOptions = {}): Out => {
 
   const registry = normalizeRegistry(options.registry ?? 'npm');
   const authToken = (options.authToken ?? '${GITHUB_TOKEN}').trim();
-  const filePath = options.filePath ?? '.npmrc';
+  const filePath = '.npmrc';
   const host = registryHost(registry);
   const registryLine = `registry=${registry}`;
   const tokenLine = `//${host}/:_authToken=${authToken}`;

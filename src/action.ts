@@ -1,24 +1,12 @@
-import { exec as _exec, getExecOutput } from '@actions/exec';
 import { exec } from './exec';
 import { saveOuputs } from './outputs';
-import { getPreviousVersion } from './versions';
+import { getCurrentVersion, getPreviousVersion } from './versions';
 
 export const main = async () => {
   const { inputs, result } = await exec();
 
   if (result === undefined || result.length === 0) {
-    const filter = inputs.filter.length > 0 ? inputs.filter : '.';
-    const path = `${filter}/package.json`;
-
-    const { stdout } = await getExecOutput(
-      `node -p "require('${path}').version"`,
-      [],
-      {
-        ignoreReturnCode: true,
-      },
-    );
-
-    const old_version = stdout.trim();
+    const old_version = await getCurrentVersion(inputs.filter);
 
     return saveOuputs({
       tag: inputs.tag,

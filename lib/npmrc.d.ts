@@ -1,6 +1,5 @@
 export type CreateNpmrcOptions = {
     authToken?: string;
-    filePath?: string;
     registry?: string;
 };
 type Out = Partial<{

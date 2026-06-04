@@ -1,17 +1,20 @@
-import { getExecOutput } from '@actions/exec';
+import { relative, resolve } from 'path';
+import * as v from 'valibot';
+import { safeExec, warnErrors } from './helpers';
 
 export const listVersions = async (
   new_version: string,
   package_name: string,
 ) => {
-  const command = await getExecOutput(
-    `pnpm view ${package_name} versions`,
-  );
-  const versions: string[] = JSON.parse(command.stdout);
-  const filteredVersions = versions.filter(
-    version => version !== new_version,
-  );
-  return filteredVersions;
+  const command = `pnpm view ${package_name} versions`;
+  const { errors, result } = await safeExec(command, v.array(v.string()));
+  errors.schema.forEach(warnErrors('JSON SCHEMA validation'));
+
+  if (errors.stderr.length > 0) {
+    console.warn('Some errors occured !!');
+  }
+
+  return result?.filter(v => v !== new_version);
 };
 
 export const getPreviousVersion = async (
@@ -19,6 +22,19 @@ export const getPreviousVersion = async (
   package_name: string,
 ) => {
   const versions = await listVersions(new_version, package_name);
-  const previousVersion = versions[versions.length - 1];
-  return previousVersion;
+  if (!versions || versions.length === 0) return new_version;
+  return versions[versions.length - 1];
+};
+
+export const getCurrentVersion = async (filter: string) => {
+  const path = relative('.', resolve(filter, 'package.json'));
+  const command = `node -p "require('${path}').version"`;
+  const { errors, result } = await safeExec(command, v.string());
+  errors.schema.forEach(warnErrors('JSON SCHEMA validation'));
+
+  if (errors.stderr.length > 0) {
+    console.warn('Some errors occured !!');
+  }
+
+  return result;
 };
