@@ -27,7 +27,8 @@ export const getPreviousVersion = async (
 };
 
 export const getCurrentVersion = async (filter: string) => {
-  const path = relative('.', resolve(filter, 'package.json'));
+  const _path = relative('.', resolve(filter, 'package.json'));
+  const path = `./${_path}`;
   const command = `node -p "require('${path}').version"`;
   const { errors, result } = await safeExec(command, v.string());
   errors.schema.forEach(warnErrors('JSON SCHEMA validation'));

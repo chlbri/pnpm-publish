@@ -49,7 +49,7 @@ describe('pnpm-publish exports', () => {
       'public',
       '--report-summary',
       '--no-git-checks',
-      '--no-git-checks',
+      '--ignore-scripts',
     ]);
   });
 
@@ -61,7 +61,7 @@ describe('pnpm-publish exports', () => {
       'public',
       '--report-summary',
       '--no-git-checks',
-      '--no-git-checks',
+      '--ignore-scripts',
     ]);
   });
 
@@ -75,7 +75,7 @@ describe('pnpm-publish exports', () => {
       'restricted',
       '--report-summary',
       '--no-git-checks',
-      '--no-git-checks',
+      '--ignore-scripts',
     ]);
   });
 
@@ -89,7 +89,7 @@ describe('pnpm-publish exports', () => {
       'next',
       '--report-summary',
       '--no-git-checks',
-      '--no-git-checks',
+      '--ignore-scripts',
     ]);
   });
 
@@ -102,7 +102,7 @@ describe('pnpm-publish exports', () => {
       '--dry-run',
       '--report-summary',
       '--no-git-checks',
-      '--no-git-checks',
+      '--ignore-scripts',
     ]);
   });
 
@@ -118,7 +118,7 @@ describe('pnpm-publish exports', () => {
       'packages/foo',
       '--report-summary',
       '--no-git-checks',
-      '--no-git-checks',
+      '--ignore-scripts',
     ]);
   });
 
@@ -131,7 +131,7 @@ describe('pnpm-publish exports', () => {
       '--force',
       '--report-summary',
       '--no-git-checks',
-      '--no-git-checks',
+      '--ignore-scripts',
     ]);
   });
 
@@ -144,7 +144,7 @@ describe('pnpm-publish exports', () => {
       '--provenance',
       '--report-summary',
       '--no-git-checks',
-      '--no-git-checks',
+      '--ignore-scripts',
     ]);
   });
 
@@ -160,7 +160,7 @@ describe('pnpm-publish exports', () => {
       'main',
       '--report-summary',
       '--no-git-checks',
-      '--no-git-checks',
+      '--ignore-scripts',
     ]);
   });
 });

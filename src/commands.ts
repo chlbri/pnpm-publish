@@ -49,7 +49,7 @@ export const constructComand = ({
 
   commands.push('--report-summary');
   commands.push('--no-git-checks');
-  commands.push('--no-git-checks');
+  commands.push('--ignore-scripts');
 
   return commands;
 };

@@ -87,20 +87,19 @@ export const collectNpmCodes = (...warnings: string[]) => {
 export const warnErrors = (label: string) => {
   return (error: string, index: number, errors: string[]) => {
     if (index === 0) {
-      console.log('-'.repeat(60));
+      console.warn('-'.repeat(60));
       console.warn(label, 'ERRORS');
-      console.log('-'.repeat(60));
-      console.log();
+      console.warn('-'.repeat(60));
+      console.warn();
     }
 
     console.warn(index + 1, ':=>', error);
 
-    if (index < errors.length - 1) console.log('-'.repeat(60));
-    else {
-      console.log();
-      console.log('-'.repeat(60));
+    if (index === errors.length - 1) {
+      console.warn();
+      console.warn('-'.repeat(60));
       console.warn('END OF', label, 'ERRORS');
-      console.log();
+      console.warn();
     }
   };
 };
