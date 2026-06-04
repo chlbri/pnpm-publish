@@ -16283,14 +16283,10 @@ function hn(e, t) {
   );
 }
 function gn(e, t) {
-  let n = [...new Set(e)];
-  return n.length > 1 ? `(${n.join(` ${t} `)})` : (n[0] ?? `never`);
-}
-function _n(e, t) {
   return {
     kind: `transformation`,
     type: `parse_json`,
-    reference: _n,
+    reference: gn,
     config: e,
     message: t,
     async: !1,
@@ -16307,40 +16303,28 @@ function _n(e, t) {
     },
   };
 }
-function vn(e) {
-  return {
-    kind: `transformation`,
-    type: `transform`,
-    reference: vn,
-    async: !1,
-    operation: e,
-    '~run'(e) {
-      return ((e.value = this.operation(e.value)), e);
-    },
-  };
-}
-function yn() {
+function _n() {
   return {
     kind: `transformation`,
     type: `trim`,
-    reference: yn,
+    reference: _n,
     async: !1,
     '~run'(e) {
       return ((e.value = e.value.trim()), e);
     },
   };
 }
-function bn(e, t, n) {
+function vn(e, t, n) {
   return typeof e.fallback == `function` ? e.fallback(t, n) : e.fallback;
 }
-function xn(e, t, n) {
+function yn(e, t, n) {
   return typeof e.default == `function` ? e.default(t, n) : e.default;
 }
-function Sn(e, t) {
+function bn(e, t) {
   return {
     kind: `schema`,
     type: `array`,
-    reference: Sn,
+    reference: bn,
     expects: `Array`,
     async: !1,
     item: e,
@@ -16378,11 +16362,11 @@ function Sn(e, t) {
     },
   };
 }
-function Cn(e, t) {
+function xn(e, t) {
   return {
     kind: `schema`,
     type: `loose_object`,
-    reference: Cn,
+    reference: xn,
     expects: `Object`,
     async: !1,
     entries: e,
@@ -16403,7 +16387,7 @@ function Cn(e, t) {
               i.type === `nullish`) &&
               i.default !== void 0)
           ) {
-            let a = r in n ? n[r] : xn(i),
+            let a = r in n ? n[r] : yn(i),
               o = i[`~run`]({ value: a }, t);
             if (o.issues) {
               let i = {
@@ -16422,7 +16406,7 @@ function Cn(e, t) {
               }
             }
             (o.typed || (e.typed = !1), (e.value[r] = o.value));
-          } else if (i.fallback !== void 0) e.value[r] = bn(i);
+          } else if (i.fallback !== void 0) e.value[r] = vn(i);
           else if (
             i.type !== `exact_optional` &&
             i.type !== `optional` &&
@@ -16452,11 +16436,11 @@ function Cn(e, t) {
     },
   };
 }
-function wn(e) {
+function Sn(e) {
   return {
     kind: `schema`,
     type: `string`,
-    reference: wn,
+    reference: Sn,
     expects: `string`,
     async: !1,
     message: e,
@@ -16473,52 +16457,7 @@ function wn(e) {
     },
   };
 }
-function Tn(e) {
-  let t;
-  if (e)
-    for (let n of e)
-      if (t) for (let e of n.issues) t.push(e);
-      else t = n.issues;
-  return t;
-}
-function En(e, t) {
-  return {
-    kind: `schema`,
-    type: `union`,
-    reference: En,
-    expects: gn(
-      e.map(e => e.expects),
-      `|`,
-    ),
-    async: !1,
-    options: e,
-    message: t,
-    get '~standard'() {
-      return mn(this);
-    },
-    '~run'(e, t) {
-      let n, r, i;
-      for (let a of this.options) {
-        let o = a[`~run`]({ value: e.value }, t);
-        if (o.typed)
-          if (o.issues) r ? r.push(o) : (r = [o]);
-          else {
-            n = o;
-            break;
-          }
-        else i ? i.push(o) : (i = [o]);
-      }
-      if (n) return n;
-      if (r) {
-        if (r.length === 1) return r[0];
-        (fn(this, `type`, e, t, { issues: Tn(r) }), (e.typed = !0));
-      } else if (i?.length === 1) return i[0];
-      else fn(this, `type`, e, t, { issues: Tn(i) });
-      return e;
-    },
-  };
-}
-function Dn(...e) {
+function Cn(...e) {
   return {
     ...e[0],
     pipe: e,
@@ -16542,7 +16481,7 @@ function Dn(...e) {
     },
   };
 }
-function On(e, t, n) {
+function wn(e, t, n) {
   let r = e[`~run`]({ value: t }, un(n));
   return {
     typed: r.typed,
@@ -16551,7 +16490,7 @@ function On(e, t, n) {
     issues: r.issues,
   };
 }
-async function kn(e, t) {
+async function Tn(e, t) {
   let n = [],
     r = [];
   if (
@@ -16562,20 +16501,18 @@ async function kn(e, t) {
     }),
     t)
   ) {
-    let e = n.join(`
-`);
-    console.log(`before pass`, e);
-    let i = On(t, e);
-    return (
-      console.log(`after pass`, i),
-      i.success
-        ? { errors: { stderr: r, schema: [] }, result: i.output }
-        : { errors: { stderr: r, schema: i.issues.map(e => e.message) } }
+    let e = wn(
+      t,
+      n.join(`
+`),
     );
+    return e.success
+      ? { errors: { stderr: r, schema: [] }, result: e.output }
+      : { errors: { stderr: r, schema: e.issues.map(e => e.message) } };
   }
   return { warnings: n, errors: r };
 }
-const An = (...e) => {
+const En = (...e) => {
     let t = [],
       n = Object.entries(y);
     if (
@@ -16586,12 +16523,12 @@ const An = (...e) => {
           });
         });
       }),
-      t.forEach(jn(`PNPM publish warns with codes`)),
+      t.forEach(Dn(`PNPM publish warns with codes`)),
       t.length > 0)
     )
       return t;
   },
-  jn = e => (t, n, r) => {
+  Dn = e => (t, n, r) => {
     (n === 0 &&
       (console.warn(`-`.repeat(60)),
       console.warn(e, `ERRORS`),
@@ -16605,7 +16542,7 @@ const An = (...e) => {
         console.warn(),
         console.warn()));
   },
-  Mn = e => {
+  On = e => {
     let t = e.trim().toLowerCase();
     if (t.length === 0 || t === `npm`)
       return `https://registry.npmjs.org/`;
@@ -16616,16 +16553,16 @@ const An = (...e) => {
         : `https://${t}`;
     return n.endsWith(`/`) ? n : `${n}/`;
   },
-  Nn = e =>
-    Mn(e)
+  kn = e =>
+    On(e)
       .replace(/^https?:\/\//, ``)
       .split(`/`)[0],
-  Pn = (e = {}) => {
+  An = (e = {}) => {
     if (!e.authToken) return { created: !1 };
-    let t = Mn(e.registry ?? `npm`),
+    let t = On(e.registry ?? `npm`),
       n = (e.authToken ?? '${GITHUB_TOKEN}').trim(),
       r = `.npmrc`,
-      i = Nn(t),
+      i = kn(t),
       a = `registry=${t}`,
       o = `//${i}/:_authToken=${n}`,
       s = u(r),
@@ -16646,40 +16583,30 @@ const An = (...e) => {
       { created: !s, filePath: r, registry: t }
     );
   },
-  Fn = Dn(
-    wn(`Only string accepted`),
-    _n({}, `Not a json`),
-    Sn(Cn({ name: wn(), version: wn() })),
+  jn = Cn(
+    Sn(`Only string accepted`),
+    gn({}, `Not a json`),
+    bn(xn({ name: Sn(), version: Sn() })),
   ),
-  In = Dn(
-    wn(`Only string accepted`),
-    _n({}, `Not a json`),
-    En([
-      Sn(wn()),
-      Dn(
-        wn(),
-        vn(e => [e]),
-      ),
-    ]),
-  ),
-  Ln = async e => An(...(await kn(e)).warnings),
-  Rn = async () => {
-    let { errors: e, result: t } = await kn(an(), Fn);
-    return (e.schema.forEach(jn(`SUMMARY JSON SCHEMA validation`)), t);
+  Mn = Cn(Sn(`Only string accepted`), gn({}, `Not a json`), bn(Sn())),
+  Nn = async e => En(...(await Tn(e)).warnings),
+  Pn = async () => {
+    let { errors: e, result: t } = await Tn(an(), jn);
+    return (e.schema.forEach(Dn(`SUMMARY JSON SCHEMA validation`)), t);
   },
-  zn = async () => {
+  Fn = async () => {
     let { command: e, inputs: t } = cn();
     return (
-      Pn({ authToken: t.AUTH, registry: t.registry }),
-      (await Ln(e))
+      An({ authToken: t.AUTH, registry: t.registry }),
+      (await Nn(e))
         ? { inputs: t, result: void 0 }
-        : { result: await Rn(), inputs: t }
+        : { result: await Pn(), inputs: t }
     );
   },
-  Bn = (e, t) => {
+  In = (e, t) => {
     t && nn(e, t);
   },
-  Vn = ({
+  Ln = ({
     name: e,
     access: t,
     dry_run: n,
@@ -16688,47 +16615,48 @@ const An = (...e) => {
     tag: a,
     released: o,
   }) => {
-    (Bn(`name`, e),
-      Bn(`new-version`, i),
-      Bn(`tag`, a),
-      Bn(`access`, t),
-      Bn(`released`, o),
-      Bn(`old-version`, r),
-      Bn(`dry-run`, n));
+    (In(`name`, e),
+      In(`new-version`, i),
+      In(`tag`, a),
+      In(`access`, t),
+      In(`released`, o),
+      In(`old-version`, r),
+      In(`dry-run`, n));
   },
-  Hn = async (e, t) => {
-    let { errors: n, result: r } = await kn(
+  Rn = async (e, t) => {
+    let { errors: n, result: r } = await Tn(
       `pnpm view ${t} versions --json`,
-      In,
+      Mn,
     );
     return (
-      n.schema.forEach(jn(`JSON SCHEMA validation`)),
+      n.schema.forEach(Dn(`JSON SCHEMA validation`)),
       n.stderr.length > 0 && console.warn(`Some errors occured !!`),
       r?.filter(t => t !== e)
     );
   },
-  Un = async (e, t) => {
-    let n = await Hn(e, t);
+  zn = async (e, t) => {
+    let n = await Rn(e, t);
     return !n || n.length === 0 ? e : n[n.length - 1];
   },
-  Wn = async (e, t) => {
-    let { errors: n, result: r } = await kn(
+  Bn = async (e, t) => {
+    let { errors: n, result: r } = await Tn(
       `node -p "require('${on(t)}').${e}"`,
-      Dn(wn(), yn()),
+      Cn(Sn(), _n()),
     );
     return (
-      n.schema.forEach(jn(`JSON SCHEMA validation`)),
+      n.schema.forEach(Dn(`JSON SCHEMA validation`)),
       n.stderr.length > 0 && console.warn(`Some errors occured !!`),
       r
     );
   },
-  Gn = async e => Wn(`version`, e),
-  Kn = async e => Wn(`name`, e);
+  Vn = async e => Bn(`version`, e),
+  Hn = async e => Bn(`name`, e);
 (async () => {
-  let { inputs: e, result: t } = await zn();
+  let { inputs: e, result: t } = await Fn(),
+    n = await Hn(e.filter);
   if (t === void 0 || t.length === 0) {
-    let t = await Un(await Gn(e.filter), e.filter);
-    return Vn({
+    let t = await zn(await Vn(e.filter), n);
+    return Ln({
       tag: e.tag,
       access: e.access,
       dry_run: String(e.dry_run),
@@ -16736,10 +16664,9 @@ const An = (...e) => {
       version: t,
     });
   } else {
-    let n = await Kn(e.filter),
-      { version: r, name: i } = t.find(e => e.name === n),
-      a = await Un(r, i);
-    return Vn({
+    let { version: r, name: i } = t.find(e => e.name === n),
+      a = await zn(r, i);
+    return Ln({
       name: i,
       version: r,
       tag: e.tag,

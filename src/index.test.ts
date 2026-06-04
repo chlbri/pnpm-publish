@@ -25,7 +25,7 @@ describe('pnpm-publish exports', () => {
 
   test('#02 => getVersionCommand with filter returns node command with filter path', () => {
     expect(getVersionCommand('packages/foo')).toBe(
-      `node -p "require('packages/foo/package.json').version"`,
+      `node -p "require('./packages/foo/package.json').version"`,
     );
   });
 

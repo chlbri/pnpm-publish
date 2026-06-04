@@ -3,6 +3,33 @@
 <details>
 <summary>
 
+## **[0.6.0] - 04/06/2026** => _16:05_
+
+</summary>
+
+- Add le support de la publication récursive (`-r` flag) dans
+  `constructComand`.
+- Add des helpers pour la récupération du nom du package (`getPackageName`)
+  et la lecture de configuration depuis `package.json` (`getFromPackage`).
+- Fix la validation du schéma `SchemaVersions` en restreignant strictement
+  aux tableaux de chaînes de caractères.
+- Fix le format de la commande d'extraction des packages publiés en
+  utilisant `JSON.stringify` et `pnpm view` avec le flag `--json`.
+- Fix le quoting des arguments dans `getVersionCommand` et
+  `getPublishedsCommand` en ajoutant des guillemets.
+- Refactor la récupération de la version et du nom du package pour utiliser
+  un helper commun `getPackageJson` et `getFromPackage`.
+- Refactor la standardisation des messages d'erreurs en renommant "JSON
+  SCHEMA validation" en "SUMMARY JSON SCHEMA validation".
+- <u>Test coverage **_27.74%_**</u>
+
+</details>
+
+<br/>
+
+<details>
+<summary>
+
 ## **[0.5.0] - 04/06/2026** => _13:52_
 
 </summary>

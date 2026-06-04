@@ -14,11 +14,5 @@ export const SchemaPublisheds = v.pipe(
 export const SchemaVersions = v.pipe(
   v.string('Only string accepted'),
   v.parseJson({}, 'Not a json'),
-  v.union([
-    v.array(v.string()),
-    v.pipe(
-      v.string(),
-      v.transform(val => [val]),
-    ),
-  ]),
+  v.array(v.string()),
 );

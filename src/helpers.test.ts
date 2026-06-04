@@ -100,23 +100,7 @@ describe('safeExec tests', () => {
     });
   });
 
-  test('#05 => safeExec with SchemaVersions and valid JSON single version string returns array of one version', async () => {
-    vi.mocked(exec).mockImplementation(async (_, __, options) => {
-      options?.listeners?.stdline?.('"1.0.0"');
-      return 0;
-    });
-
-    const res = await safeExec('some command', SchemaVersions);
-    expect(res).toEqual({
-      errors: {
-        stderr: [],
-        schema: [],
-      },
-      result: ['1.0.0'],
-    });
-  });
-
-  test('#06 => safeExec with SchemaVersions and invalid JSON returns error', async () => {
+  test('#05 => safeExec with SchemaVersions and invalid JSON returns error', async () => {
     vi.mocked(exec).mockImplementation(async (_, __, options) => {
       options?.listeners?.stdline?.('invalid json');
       return 0;

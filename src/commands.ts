@@ -4,12 +4,8 @@ import { getInputs } from './inputs';
 import type { InputsSommand } from './types';
 
 export const getVersionCommand = (filter = '.') => {
-  const command = [
-    'node',
-    '-p',
-    `"require('${filter}/package.json').version"`,
-  ];
-
+  const _require = getPackageJson(filter);
+  const command = ['node', '-p', `"require('${_require}').version"`];
   return command.join(' ');
 };
 
