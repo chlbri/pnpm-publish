@@ -17,8 +17,8 @@ const cmdSummary = async () => {
     SchemaPublisheds,
   );
 
-  const cwd = process.env.GITHUB_WORKSPACE;
-  const data = await import(`${cwd}/${SUMMARY_PATH}`);
+  // const cwd = process.env.GITHUB_WORKSPACE;
+  const data = await import(`${SUMMARY_PATH}`);
   console.warn('publishedPackages', '=>', data.publishedPackages);
   errors.schema.forEach(warnErrors('SUMMARY JSON SCHEMA validation'));
 

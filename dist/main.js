@@ -16593,7 +16593,7 @@ const Dn = (...e) => {
   Pn = async e => Dn(...(await En(e)).warnings),
   Fn = async () => {
     let { errors: e, result: t } = await En(on(), Mn),
-      n = await import(`${process.env.GITHUB_WORKSPACE}/${y}`);
+      n = await import(`${y}`);
     return (
       console.warn(`publishedPackages`, `=>`, n.publishedPackages),
       e.schema.forEach(On(`SUMMARY JSON SCHEMA validation`)),
