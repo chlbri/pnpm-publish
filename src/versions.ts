@@ -30,7 +30,10 @@ export const getCurrentVersion = async (filter: string) => {
   const _path = relative('.', resolve(filter, 'package.json'));
   const path = `./${_path}`;
   const command = `node -p "require('${path}').version"`;
-  const { errors, result } = await safeExec(command, v.string());
+  const { errors, result } = await safeExec(
+    command,
+    v.pipe(v.string(), v.parseJson(), v.string()),
+  );
   errors.schema.forEach(warnErrors('JSON SCHEMA validation'));
 
   if (errors.stderr.length > 0) {

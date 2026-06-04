@@ -41,6 +41,7 @@ export async function safeExec(
     const json = warnings.join('\n');
     console.log('before pass', json);
     const parsed = safeParse(schema, json);
+    console.log('after pass', parsed);
 
     if (parsed.success) {
       return {
