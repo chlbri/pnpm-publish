@@ -8,10 +8,11 @@ import {
 
 export const main = async () => {
   const { inputs, result } = await exec();
+  const packageName = await getPackageName(inputs.filter);
 
   if (result === undefined || result.length === 0) {
     const version = await getCurrentVersion(inputs.filter);
-    const old_version = await getPreviousVersion(version!, inputs.filter);
+    const old_version = await getPreviousVersion(version!, packageName!);
 
     return saveOuputs({
       tag: inputs.tag,
@@ -21,7 +22,6 @@ export const main = async () => {
       version: old_version,
     });
   } else {
-    const packageName = await getPackageName(inputs.filter);
     const { version, name } = result.find(e => e.name === packageName)!;
     const old_version = await getPreviousVersion(version, name);
 
