@@ -1,5 +1,4 @@
 import { buildCommand, getPublishedsCommand } from './commands';
-import { SUMMARY_PATH } from './constants';
 import { collectNpmCodes, safeExec, warnErrors } from './helpers';
 import { createNpmrc } from './npmrc';
 import { SchemaPublisheds } from './schemas';
@@ -17,12 +16,7 @@ const cmdSummary = async () => {
     SchemaPublisheds,
   );
 
-  // const cwd = process.env.GITHUB_WORKSPACE;
-  console.log('process.cwd', process.cwd());
-  const data = await import(`../${SUMMARY_PATH}`);
-  console.warn('publishedPackages', '=>', data.publishedPackages);
   errors.schema.forEach(warnErrors('SUMMARY JSON SCHEMA validation'));
-
   return result;
 };
 
