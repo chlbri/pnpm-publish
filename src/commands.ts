@@ -14,7 +14,13 @@ export const getVersionCommand = (filter = '.') => {
 };
 
 export const getPublishedsCommand = (summaryPath = SUMMARY_PATH) => {
-  return `node -p 'JSON.stringify(require("${summaryPath}").publishedPackages, null, 2)'`;
+  const command = [
+    'node',
+    '-p',
+    `require('${summaryPath}').publishedPackages`,
+  ];
+
+  return command.join(' ');
 };
 
 export const getPackageJson = (filter: string) => {

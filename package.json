@@ -1,6 +1,6 @@
 {
   "name": "@bemedev/pnpm-publish",
-  "version": "0.5.1-dev2",
+  "version": "0.5.1-dev3",
   "description": "Small helpers to compute npm and pnpm publish options.",
   "author": {
     "email": "bri_lvi@icloud.com",
