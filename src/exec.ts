@@ -16,7 +16,7 @@ const cmdExec = async (command: string) => {
     silent: true,
     ignoreReturnCode: true,
     listeners: {
-      stdline: data => {
+      errline: data => {
         lines.push(data);
       },
     },
