@@ -6,7 +6,7 @@ export const listVersions = async (
   new_version: string,
   package_name: string,
 ) => {
-  const command = `pnpm view ${package_name} versions`;
+  const command = `npm view ${package_name} versions`;
   const { errors, result } = await safeExec(command, v.array(v.string()));
   errors.schema.forEach(warnErrors('JSON SCHEMA validation'));
 

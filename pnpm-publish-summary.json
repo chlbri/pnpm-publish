@@ -1,0 +1,228 @@
+{
+  "publishedPackages": [
+    {
+      "id": "@bemedev/pnpm-publish@0.5.0-dev5",
+      "name": "@bemedev/pnpm-publish",
+      "version": "0.5.0-dev5",
+      "size": 16330,
+      "unpackedSize": 74156,
+      "shasum": "317e65cad15b80aa0830f66f9081f545b0425197",
+      "integrity": "sha512-Zfp7mbXoLTNxHexfPLC1ux+TBzHw52pwKn3KvDy1Odgg/wciYlwNDB3x8XBgQu+/tCEzsAVGWvsoDdhyX2firA==",
+      "filename": "bemedev-pnpm-publish-0.5.0-dev5.tgz",
+      "files": [
+        {
+          "path": "lib/_virtual/_rolldown/runtime.cjs"
+        },
+        {
+          "path": "lib/action.cjs"
+        },
+        {
+          "path": "lib/action.cjs.map"
+        },
+        {
+          "path": "lib/action.d.ts"
+        },
+        {
+          "path": "lib/action.d.ts.map"
+        },
+        {
+          "path": "lib/action.js"
+        },
+        {
+          "path": "lib/action.js.map"
+        },
+        {
+          "path": "lib/commands.cjs"
+        },
+        {
+          "path": "lib/commands.cjs.map"
+        },
+        {
+          "path": "lib/commands.d.ts"
+        },
+        {
+          "path": "lib/commands.d.ts.map"
+        },
+        {
+          "path": "lib/commands.js"
+        },
+        {
+          "path": "lib/commands.js.map"
+        },
+        {
+          "path": "lib/constants.cjs"
+        },
+        {
+          "path": "lib/constants.cjs.map"
+        },
+        {
+          "path": "lib/constants.d.ts"
+        },
+        {
+          "path": "lib/constants.d.ts.map"
+        },
+        {
+          "path": "lib/constants.js"
+        },
+        {
+          "path": "lib/constants.js.map"
+        },
+        {
+          "path": "lib/exec.cjs"
+        },
+        {
+          "path": "lib/exec.cjs.map"
+        },
+        {
+          "path": "lib/exec.d.ts"
+        },
+        {
+          "path": "lib/exec.d.ts.map"
+        },
+        {
+          "path": "lib/exec.js"
+        },
+        {
+          "path": "lib/exec.js.map"
+        },
+        {
+          "path": "lib/helpers.cjs"
+        },
+        {
+          "path": "lib/helpers.cjs.map"
+        },
+        {
+          "path": "lib/helpers.d.ts"
+        },
+        {
+          "path": "lib/helpers.d.ts.map"
+        },
+        {
+          "path": "lib/helpers.js"
+        },
+        {
+          "path": "lib/helpers.js.map"
+        },
+        {
+          "path": "lib/index.cjs"
+        },
+        {
+          "path": "lib/index.d.ts"
+        },
+        {
+          "path": "lib/index.d.ts.map"
+        },
+        {
+          "path": "lib/index.js"
+        },
+        {
+          "path": "lib/inputs.cjs"
+        },
+        {
+          "path": "lib/inputs.cjs.map"
+        },
+        {
+          "path": "lib/inputs.d.ts"
+        },
+        {
+          "path": "lib/inputs.d.ts.map"
+        },
+        {
+          "path": "lib/inputs.js"
+        },
+        {
+          "path": "lib/inputs.js.map"
+        },
+        {
+          "path": "lib/npmrc.cjs"
+        },
+        {
+          "path": "lib/npmrc.cjs.map"
+        },
+        {
+          "path": "lib/npmrc.d.ts"
+        },
+        {
+          "path": "lib/npmrc.d.ts.map"
+        },
+        {
+          "path": "lib/npmrc.js"
+        },
+        {
+          "path": "lib/npmrc.js.map"
+        },
+        {
+          "path": "lib/outputs.cjs"
+        },
+        {
+          "path": "lib/outputs.cjs.map"
+        },
+        {
+          "path": "lib/outputs.d.ts"
+        },
+        {
+          "path": "lib/outputs.d.ts.map"
+        },
+        {
+          "path": "lib/outputs.js"
+        },
+        {
+          "path": "lib/outputs.js.map"
+        },
+        {
+          "path": "lib/schemas.cjs"
+        },
+        {
+          "path": "lib/schemas.cjs.map"
+        },
+        {
+          "path": "lib/schemas.d.ts"
+        },
+        {
+          "path": "lib/schemas.d.ts.map"
+        },
+        {
+          "path": "lib/schemas.js"
+        },
+        {
+          "path": "lib/schemas.js.map"
+        },
+        {
+          "path": "lib/types.d.ts"
+        },
+        {
+          "path": "lib/types.d.ts.map"
+        },
+        {
+          "path": "lib/versions.cjs"
+        },
+        {
+          "path": "lib/versions.cjs.map"
+        },
+        {
+          "path": "lib/versions.d.ts"
+        },
+        {
+          "path": "lib/versions.d.ts.map"
+        },
+        {
+          "path": "lib/versions.js"
+        },
+        {
+          "path": "lib/versions.js.map"
+        },
+        {
+          "path": "LICENSE"
+        },
+        {
+          "path": "package.json"
+        },
+        {
+          "path": "README.md"
+        }
+      ],
+      "entryCount": 70,
+      "bundled": []
+    }
+  ]
+}
