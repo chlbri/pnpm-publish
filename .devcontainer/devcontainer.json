@@ -1,5 +1,5 @@
 {
-  "name": "Node.js Library",
+  "name": "pnpm-publish",
   "image": "mcr.microsoft.com/devcontainers/javascript-node:24",
   // 3 GB RAM for the container
   "runArgs": ["--memory=3g", "--memory-swap=3g", "--cpus=2"],

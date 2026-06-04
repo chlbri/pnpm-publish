@@ -29,7 +29,8 @@ jobs:
 
       - name: Check - updated
         if: ${{ steps.publish.outputs.type }}
-        run: echo "${{ steps.publish.outputs.name }} Version changed from ${{
+        run:
+          echo "${{ steps.publish.outputs.name }} Version changed from ${{
           steps.publish.outputs.old-version }} to ${{
           steps.publish.outputs.version }}"
 
