@@ -13,8 +13,9 @@ jobs:
     name: Publish
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       id-token: write
+      pull-requests: read
 
     steps:
       - name: Checkout pnpm repo
