@@ -16168,7 +16168,11 @@ const rn = () => ({
     registry: tn(`registry`).trim(),
   }),
   an = (e = `./pnpm-publish-summary.json`) =>
-    [`node`, `-p`, `require('${e}').publishedPackages`].join(` `),
+    [
+      `node`,
+      `-p`,
+      `JSON.stringify(require('${e}').publishedPackages, null, 2)`,
+    ].join(` `),
   on = e => `./${n(`.`, r(e, `package.json`))}`,
   sn = ({
     access: e,

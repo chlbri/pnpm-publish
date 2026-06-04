@@ -17,7 +17,7 @@ export const getPublishedsCommand = (summaryPath = SUMMARY_PATH) => {
   const command = [
     'node',
     '-p',
-    `require('${summaryPath}').publishedPackages`,
+    `JSON.stringify(require('${summaryPath}').publishedPackages, null, 2)`,
   ];
 
   return command.join(' ');

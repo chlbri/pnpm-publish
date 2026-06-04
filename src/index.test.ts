@@ -31,13 +31,13 @@ describe('pnpm-publish exports', () => {
 
   test('#03 => getPublishedsCommand without summaryPath returns command with default path', () => {
     expect(getPublishedsCommand()).toBe(
-      "node -p require('./pnpm-publish-summary.json').publishedPackages",
+      "node -p JSON.stringify(require('./pnpm-publish-summary.json').publishedPackages, null, 2)",
     );
   });
 
   test('#04 => getPublishedsCommand with summaryPath returns command with custom path', () => {
     expect(getPublishedsCommand('custom.json')).toBe(
-      "node -p require('custom.json').publishedPackages",
+      "node -p JSON.stringify(require('custom.json').publishedPackages, null, 2)",
     );
   });
 
