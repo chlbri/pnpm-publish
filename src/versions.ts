@@ -1,5 +1,5 @@
-import { relative, resolve } from 'path';
 import * as v from 'valibot';
+import { getPackageJson } from './commands';
 import { safeExec, warnErrors } from './helpers';
 
 export const listVersions = async (
@@ -26,10 +26,9 @@ export const getPreviousVersion = async (
   return versions[versions.length - 1];
 };
 
-export const getCurrentVersion = async (filter: string) => {
-  const _path = relative('.', resolve(filter, 'package.json'));
-  const path = `./${_path}`;
-  const command = `node -p "require('${path}').version"`;
+export const getFromPackage = async (key: string, filter: string) => {
+  const path = getPackageJson(filter);
+  const command = `node -p "require('${path}').${key}"`;
   const { errors, result } = await safeExec(
     command,
     v.pipe(v.string(), v.trim()),
@@ -41,4 +40,12 @@ export const getCurrentVersion = async (filter: string) => {
   }
 
   return result;
+};
+
+export const getCurrentVersion = async (filter: string) => {
+  return getFromPackage('version', filter);
+};
+
+export const getPackageName = async (filter: string) => {
+  return getFromPackage('name', filter);
 };

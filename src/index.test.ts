@@ -45,11 +45,12 @@ describe('pnpm-publish exports', () => {
     expect(constructComand(baseInputs)).toEqual([
       'pnpm',
       'publish',
+      '-r',
       '--access',
       'public',
-      '--report-summary',
       '--no-git-checks',
       '--ignore-scripts',
+      '--report-summary',
     ]);
   });
 
@@ -57,11 +58,12 @@ describe('pnpm-publish exports', () => {
     expect(constructComand({ ...baseInputs, access: '' })).toEqual([
       'pnpm',
       'publish',
+      '-r',
       '--access',
       'public',
-      '--report-summary',
       '--no-git-checks',
       '--ignore-scripts',
+      '--report-summary',
     ]);
   });
 
@@ -71,11 +73,12 @@ describe('pnpm-publish exports', () => {
     ).toEqual([
       'pnpm',
       'publish',
+      '-r',
       '--access',
       'restricted',
-      '--report-summary',
       '--no-git-checks',
       '--ignore-scripts',
+      '--report-summary',
     ]);
   });
 
@@ -83,13 +86,14 @@ describe('pnpm-publish exports', () => {
     expect(constructComand({ ...baseInputs, tag: 'next' })).toEqual([
       'pnpm',
       'publish',
+      '-r',
       '--access',
       'public',
       '--tag',
       'next',
-      '--report-summary',
       '--no-git-checks',
       '--ignore-scripts',
+      '--report-summary',
     ]);
   });
 
@@ -97,12 +101,13 @@ describe('pnpm-publish exports', () => {
     expect(constructComand({ ...baseInputs, dry_run: true })).toEqual([
       'pnpm',
       'publish',
+      '-r',
       '--access',
       'public',
       '--dry-run',
-      '--report-summary',
       '--no-git-checks',
       '--ignore-scripts',
+      '--report-summary',
     ]);
   });
 
@@ -112,13 +117,14 @@ describe('pnpm-publish exports', () => {
     ).toEqual([
       'pnpm',
       'publish',
+      '-r',
       '--access',
       'public',
       '--filter',
       'packages/foo',
-      '--report-summary',
       '--no-git-checks',
       '--ignore-scripts',
+      '--report-summary',
     ]);
   });
 
@@ -126,12 +132,13 @@ describe('pnpm-publish exports', () => {
     expect(constructComand({ ...baseInputs, force: true })).toEqual([
       'pnpm',
       'publish',
+      '-r',
       '--access',
       'public',
       '--force',
-      '--report-summary',
       '--no-git-checks',
       '--ignore-scripts',
+      '--report-summary',
     ]);
   });
 
@@ -139,12 +146,13 @@ describe('pnpm-publish exports', () => {
     expect(constructComand({ ...baseInputs, provenance: true })).toEqual([
       'pnpm',
       'publish',
+      '-r',
       '--access',
       'public',
       '--provenance',
-      '--report-summary',
       '--no-git-checks',
       '--ignore-scripts',
+      '--report-summary',
     ]);
   });
 
@@ -154,13 +162,14 @@ describe('pnpm-publish exports', () => {
     ).toEqual([
       'pnpm',
       'publish',
+      '-r',
       '--access',
       'public',
       '--publish-branch',
       'main',
-      '--report-summary',
       '--no-git-checks',
       '--ignore-scripts',
+      '--report-summary',
     ]);
   });
 });

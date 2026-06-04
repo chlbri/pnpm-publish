@@ -1,3 +1,4 @@
+import { relative, resolve } from 'path';
 import { SUMMARY_PATH } from './constants';
 import { getInputs } from './inputs';
 import type { InputsSommand } from './types';
@@ -22,6 +23,11 @@ export const getPublishedsCommand = (summaryPath = SUMMARY_PATH) => {
   return command.join(' ');
 };
 
+export const getPackageJson = (filter: string) => {
+  const _path = relative('.', resolve(filter, 'package.json'));
+  return `./${_path}`;
+};
+
 export const constructComand = ({
   access,
   tag,
@@ -31,7 +37,7 @@ export const constructComand = ({
   provenance,
   force,
 }: InputsSommand) => {
-  const commands = ['pnpm', 'publish'];
+  const commands = ['pnpm', 'publish', '-r'];
   if (access.length > 0) {
     commands.push('--access', access);
   } else {
@@ -47,9 +53,9 @@ export const constructComand = ({
     commands.push('--publish-branch', publishBranch);
   }
 
-  commands.push('--report-summary');
   commands.push('--no-git-checks');
   commands.push('--ignore-scripts');
+  commands.push('--report-summary');
 
   return commands;
 };

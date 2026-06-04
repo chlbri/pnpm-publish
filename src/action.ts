@@ -1,12 +1,17 @@
 import { exec } from './exec';
 import { saveOuputs } from './outputs';
-import { getCurrentVersion, getPreviousVersion } from './versions';
+import {
+  getCurrentVersion,
+  getPackageName,
+  getPreviousVersion,
+} from './versions';
 
 export const main = async () => {
   const { inputs, result } = await exec();
 
   if (result === undefined || result.length === 0) {
-    const old_version = await getCurrentVersion(inputs.filter);
+    const version = await getCurrentVersion(inputs.filter);
+    const old_version = await getPreviousVersion(version!, inputs.filter);
 
     return saveOuputs({
       tag: inputs.tag,
@@ -16,12 +21,9 @@ export const main = async () => {
       version: old_version,
     });
   } else {
-    const old_version = await getPreviousVersion(
-      result[0].version!,
-      result[0].name!,
-    );
-
-    const { name, version } = result[0];
+    const packageName = await getPackageName(inputs.filter);
+    const { version, name } = result.find(e => e.name === packageName)!;
+    const old_version = await getPreviousVersion(version, name);
 
     return saveOuputs({
       name,
