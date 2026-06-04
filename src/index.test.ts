@@ -19,25 +19,25 @@ describe('pnpm-publish exports', () => {
 
   test('#01 => getVersionCommand without filter returns default node command', () => {
     expect(getVersionCommand()).toBe(
-      "node -p require('./package.json').version",
+      `node -p "require('./package.json').version"`,
     );
   });
 
   test('#02 => getVersionCommand with filter returns node command with filter path', () => {
     expect(getVersionCommand('packages/foo')).toBe(
-      "node -p require('packages/foo/package.json').version",
+      `node -p "require('packages/foo/package.json').version"`,
     );
   });
 
-  test.skip('#03 => getPublishedsCommand without summaryPath returns command with default path', () => {
+  test('#03 => getPublishedsCommand without summaryPath returns command with default path', () => {
     expect(getPublishedsCommand()).toBe(
-      "node -p require('./pnpm-publish-summary.json').publishedPackages",
+      `node -p "JSON.stringify(require('./pnpm-publish-summary.json').publishedPackages)"`,
     );
   });
 
-  test.skip('#04 => getPublishedsCommand with summaryPath returns command with custom path', () => {
+  test('#04 => getPublishedsCommand with summaryPath returns command with custom path', () => {
     expect(getPublishedsCommand('custom.json')).toBe(
-      "node -p require('custom.json').publishedPackages",
+      `node -p "JSON.stringify(require('custom.json').publishedPackages)"`,
     );
   });
 

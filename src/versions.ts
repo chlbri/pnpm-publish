@@ -1,13 +1,14 @@
 import * as v from 'valibot';
 import { getPackageJson } from './commands';
 import { safeExec, warnErrors } from './helpers';
+import { SchemaVersions } from './schemas';
 
 export const listVersions = async (
   new_version: string,
   package_name: string,
 ) => {
-  const command = `npm view ${package_name} versions`;
-  const { errors, result } = await safeExec(command, v.array(v.string()));
+  const command = `pnpm view ${package_name} versions --json`;
+  const { errors, result } = await safeExec(command, SchemaVersions);
   errors.schema.forEach(warnErrors('JSON SCHEMA validation'));
 
   if (errors.stderr.length > 0) {

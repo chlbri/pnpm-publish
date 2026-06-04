@@ -7,7 +7,7 @@ export const getVersionCommand = (filter = '.') => {
   const command = [
     'node',
     '-p',
-    `require('${filter}/package.json').version`,
+    `"require('${filter}/package.json').version"`,
   ];
 
   return command.join(' ');
@@ -17,7 +17,7 @@ export const getPublishedsCommand = (summaryPath = SUMMARY_PATH) => {
   const command = [
     'node',
     '-p',
-    `require('${summaryPath}').publishedPackages`,
+    `"JSON.stringify(require('${summaryPath}').publishedPackages)"`,
   ];
 
   return command.join(' ');
